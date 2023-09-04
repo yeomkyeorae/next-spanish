@@ -1,9 +1,11 @@
-import Papago from '@/components/papago';
+import SpanishList from '@/components/spanish-list';
+import SentenceList from '@/components/setence-list';
 
 export default function Home() {
   return (
     <section>
-      <Papago />
+      <SpanishList type='words' limitNumber={10} />
+      <SpanishList type='sentences' limitNumber={10} />
     </section>
   );
 }
