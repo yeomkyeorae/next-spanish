@@ -1,10 +1,12 @@
-import WordList from '@/components/word-list';
+import EnrollSpanish from '@/components/enroll-spanish';
+import SpanishList from '@/components/spanish-list';
 
 export default function Word() {
   return (
     <div>
       Word!
-      <WordList />
+      <EnrollSpanish type='words' />
+      <SpanishList type='words' />
     </div>
   );
 }

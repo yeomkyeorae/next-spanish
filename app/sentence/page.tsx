@@ -1,10 +1,12 @@
-import SentenceList from '@/components/setence-list';
+import EnrollSpanish from '@/components/enroll-spanish';
+import SpanishList from '@/components/spanish-list';
 
 export default function Sentence() {
   return (
     <div>
       Sentence!
-      <SentenceList />
+      <EnrollSpanish type='sentences' />
+      <SpanishList type='sentences' />
     </div>
   );
 }

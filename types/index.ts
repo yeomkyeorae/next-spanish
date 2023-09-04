@@ -1,2 +1,1 @@
-export type Word = { spanish: string; korean: string };
-export type Sentence = { spanish: string; korean: string };
+export type Spanish = { spanish: string; korean: string };
