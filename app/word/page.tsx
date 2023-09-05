@@ -5,8 +5,7 @@ export default function Word() {
   return (
     <div>
       Word!
-      <EnrollSpanish type='words' />
-      <SpanishList type='words' />
+      <SpanishList type='words' canDeleteSpanish={true} />
     </div>
   );
 }
