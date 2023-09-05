@@ -1,1 +1,1 @@
-export type Spanish = { spanish: string; korean: string };
+export type Spanish = { id: string; spanish: string; korean: string };

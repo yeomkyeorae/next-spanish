@@ -1,31 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getSpanish } from '@/service/spanish';
+import { useState, useEffect, useCallback } from 'react';
 import { Spanish } from '@/types';
+import DeleteSpanish from './delete-spanish';
+import EnrollSpanish from './enroll-spanish';
+import { getSpanish } from '@/service/spanish';
 
 type Props = {
   type: 'words' | 'sentences';
   limitNumber?: number;
+  canDeleteSpanish?: boolean;
 };
 
-export default function SpanishList({ type, limitNumber }: Props) {
+export default function SpanishList({ type, limitNumber, canDeleteSpanish = false }: Props) {
   const [words, setWords] = useState<Spanish[]>([]);
 
-  useEffect(() => {
-    getSpanish(type, limitNumber ?? undefined)
-      .then((words) => setWords(words))
-      .catch((err) => console.log(err));
+  const requestSpanish = useCallback(async () => {
+    const spanish = await getSpanish(type, limitNumber ?? undefined);
+    setWords(spanish);
   }, [type, limitNumber]);
+
+  useEffect(() => {
+    requestSpanish();
+  }, [requestSpanish]);
 
   return (
     <div>
-      {words &&
-        words.map((words, index) => (
-          <li key={index}>
-            {words.spanish} - {words.korean}
-          </li>
-        ))}
+      <EnrollSpanish type={type} callback={requestSpanish} />
+      <ul>
+        {words &&
+          words.map((word, index) => (
+            <li key={index} className='flex'>
+              {word.spanish} - {word.korean}{' '}
+              {canDeleteSpanish && <DeleteSpanish type={type} id={word.id} callback={requestSpanish} />}
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

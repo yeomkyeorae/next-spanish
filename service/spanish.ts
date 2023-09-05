@@ -1,4 +1,4 @@
-import { collection, addDoc, query, getDocs, limit } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, limit, deleteDoc, doc } from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
 import { MAX_QUERY_NUMBER } from '@/def';
@@ -15,6 +15,7 @@ export const getSpanish = async (type: 'words' | 'sentences', limitNumber?: numb
     const data = doc.data();
 
     words.push({
+      id: doc.id,
       spanish: data.spanish,
       korean: data.korean,
     });
@@ -32,7 +33,15 @@ export const enrollSpanish = async (type: 'words' | 'sentences', spanish: string
     });
 
     console.log('Document written with ID: ', docRef.id);
-  } catch (e) {
-    console.error('Error adding document: ', e);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const deleteSpanish = async (type: 'words' | 'sentences', id: string) => {
+  try {
+    await deleteDoc(doc(dbService, type, id));
+  } catch (err) {
+    throw err;
   }
 };
