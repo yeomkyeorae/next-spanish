@@ -5,7 +5,7 @@ export default function Word() {
   return (
     <div>
       Word!
-      <SpanishList type='words' canDeleteSpanish={true} />
+      <SpanishList type='words' canDeleteSpanish={true} canAddSpanish={true} />
     </div>
   );
 }

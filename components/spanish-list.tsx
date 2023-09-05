@@ -10,9 +10,10 @@ type Props = {
   type: 'words' | 'sentences';
   limitNumber?: number;
   canDeleteSpanish?: boolean;
+  canAddSpanish?: boolean;
 };
 
-export default function SpanishList({ type, limitNumber, canDeleteSpanish = false }: Props) {
+export default function SpanishList({ type, limitNumber, canDeleteSpanish = false, canAddSpanish = false }: Props) {
   const [words, setWords] = useState<Spanish[]>([]);
 
   const requestSpanish = useCallback(async () => {
@@ -26,7 +27,7 @@ export default function SpanishList({ type, limitNumber, canDeleteSpanish = fals
 
   return (
     <div>
-      <EnrollSpanish type={type} callback={requestSpanish} />
+      {canAddSpanish && <EnrollSpanish type={type} callback={requestSpanish} />}
       <ul>
         {words &&
           words.map((word, index) => (
