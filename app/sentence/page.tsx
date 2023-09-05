@@ -5,8 +5,7 @@ export default function Sentence() {
   return (
     <div>
       Sentence!
-      <EnrollSpanish type='sentences' />
-      <SpanishList type='sentences' />
+      <SpanishList type='sentences' canDeleteSpanish={true} />
     </div>
   );
 }

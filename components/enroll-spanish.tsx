@@ -6,19 +6,26 @@ import { enrollSpanish } from '@/service/spanish';
 
 type Props = {
   type: 'words' | 'sentences';
+  callback: () => void;
 };
 
-export default function EnrollSpanish({ type }: Props) {
+export default function EnrollSpanish({ type, callback }: Props) {
   const [spanish, setSpanish] = useState('');
   const [korean, setKorean] = useState('');
 
-  const onClickHandler = () => {
-    enrollSpanish(type, spanish, korean)
-      .then(() => {
-        setSpanish('');
-        setKorean('');
-      })
-      .catch((err) => console.log(err));
+  const onClickHandler = async () => {
+    try {
+      await enrollSpanish(type, spanish, korean);
+
+      setSpanish('');
+      setKorean('');
+
+      if (callback) {
+        callback();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
