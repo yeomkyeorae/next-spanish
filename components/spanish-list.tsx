@@ -31,7 +31,7 @@ export default function SpanishList({ type, limitNumber, canDeleteSpanish = fals
       <ul>
         {words &&
           words.map((word, index) => (
-            <li key={index} className='flex'>
+            <li key={index} className='flex items-center'>
               {word.spanish} - {word.korean}{' '}
               {canDeleteSpanish && <DeleteSpanish type={type} id={word.id} callback={requestSpanish} />}
             </li>
