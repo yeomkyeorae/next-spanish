@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Input from './input';
+import Button from './button';
 import { enrollSpanish } from '@/service/spanish';
 
 type Props = {
@@ -29,10 +30,12 @@ export default function EnrollSpanish({ type, callback }: Props) {
   };
 
   return (
-    <>
-      <Input value={spanish} setValue={setSpanish} />
-      <Input value={korean} setValue={setKorean} />
-      <button onClick={onClickHandler}>추가</button>
-    </>
+    <div className='flex flex-col items-center'>
+      <div className='flex justify-center'>
+        <Input value={spanish} placeholder='Español' setValue={setSpanish} />
+        <Input value={korean} placeholder='한국어' setValue={setKorean} />
+      </div>
+      <Button text='추가' onClickHandler={onClickHandler} />
+    </div>
   );
 }
