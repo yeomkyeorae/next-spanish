@@ -1,13 +1,19 @@
-import { collection, addDoc, query, getDocs, limit, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, limit, deleteDoc, doc, orderBy, startAt, endAt } from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
 import { MAX_QUERY_NUMBER } from '@/def';
 
-export const getSpanish = async (type: 'words' | 'sentences', limitNumber?: number) => {
+export const getSpanish = async (type: 'words' | 'sentences', startAtChar: string, limitNumber?: number) => {
   const citiesRef = collection(dbService, type);
 
   // Create a query against the collection.
-  const q = query(citiesRef, limit(limitNumber ?? MAX_QUERY_NUMBER));
+  const q = query(
+    citiesRef,
+    limit(limitNumber ?? MAX_QUERY_NUMBER),
+    orderBy('spanish'),
+    startAt(startAtChar),
+    endAt(startAtChar + '\uf8ff'),
+  );
   const querySnapshot = await getDocs(q);
 
   const words: Spanish[] = [];
