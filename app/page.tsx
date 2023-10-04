@@ -1,10 +1,11 @@
-import SpanishList from '@/components/spanish-list';
+import WordList from '@/components/spanish/word-list';
+import SentenceList from '@/components/spanish/sentence-list';
 
 export default function Home() {
   return (
     <section>
-      <SpanishList type='words' limitNumber={2} />
-      <SpanishList type='sentences' limitNumber={2} />
+      <WordList limitNumber={2} />
+      <SentenceList limitNumber={2} />
     </section>
   );
 }
