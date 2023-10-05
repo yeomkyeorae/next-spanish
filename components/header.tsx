@@ -9,6 +9,7 @@ export default function Header() {
       <nav className='flex gap-4'>
         <Link href='/word'>Word</Link>
         <Link href='/sentence'>Sentence</Link>
+        <Link href='/note'>Note</Link>
       </nav>
     </header>
   );
