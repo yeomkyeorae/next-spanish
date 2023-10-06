@@ -3,6 +3,7 @@ import { Open_Sans } from 'next/font/google';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import './globals.css';
+import { AuthContextProvider } from '@/context/authContext';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -15,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en' className={openSans.className}>
       <body className='flex flex-col w-full max-w-screen-2xl mx-auto'>
-        <Header />
-        <main className='grow'>{children}</main>
+        <AuthContextProvider>
+          <Header />
+          <main className='grow'>{children}</main>
+        </AuthContextProvider>
         <Footer />
       </body>
     </html>
