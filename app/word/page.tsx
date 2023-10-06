@@ -1,10 +1,10 @@
-import SpanishList from '@/components/spanish-list';
+import WordList from '@/components/spanish/word-list';
 
 export default function Word() {
   return (
     <section className='flex flex-col items-center'>
       <span className='text-xl font-bold my-2'>parabra!</span>
-      <SpanishList type='words' limitNumber={2} canDeleteSpanish={true} canAddSpanish={true} />
+      <WordList canDeleteSpanish={true} canAddSpanish={true} canSortSpanish={true} />
     </section>
   );
 }

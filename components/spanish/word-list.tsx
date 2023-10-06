@@ -2,21 +2,21 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish } from '@/types';
-import DeleteSpanish from './delete-spanish';
-import EnrollSpanish from './enroll-spanish';
+import DeleteSpanish from '../delete-spanish';
+import EnrollSpanish from '../enroll-spanish';
 import { getSpanish } from '@/service/spanish';
 import { WORD_REPRESENTS } from '@/def';
 
 type Props = {
-  type: 'words' | 'sentences';
   limitNumber?: number;
   canDeleteSpanish?: boolean;
   canAddSpanish?: boolean;
   canSortSpanish?: boolean;
 };
 
-export default function SpanishList({
-  type,
+const Type = 'words';
+
+export default function WordList({
   limitNumber,
   canDeleteSpanish = false,
   canAddSpanish = false,
@@ -26,9 +26,9 @@ export default function SpanishList({
   const [startAtChar, setStartAtChar] = useState(canSortSpanish ? WORD_REPRESENTS[0] : '');
 
   const requestSpanish = useCallback(async () => {
-    const spanish = await getSpanish(type, startAtChar, limitNumber ?? undefined);
+    const spanish = await getSpanish(Type, startAtChar, limitNumber ?? undefined);
     setWords(spanish);
-  }, [type, limitNumber, startAtChar]);
+  }, [limitNumber, startAtChar]);
 
   useEffect(() => {
     requestSpanish();
@@ -36,7 +36,7 @@ export default function SpanishList({
 
   return (
     <div>
-      {canAddSpanish && <EnrollSpanish type={type} callback={requestSpanish} />}
+      {canAddSpanish && <EnrollSpanish type={Type} callback={requestSpanish} />}
       {canSortSpanish && (
         <ul style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
           {WORD_REPRESENTS.map((word, index) => (
@@ -51,7 +51,7 @@ export default function SpanishList({
           words.map((word, index) => (
             <li key={index} className='flex items-center'>
               {word.spanish} - {word.korean}{' '}
-              {canDeleteSpanish && <DeleteSpanish type={type} id={word.id} callback={requestSpanish} />}
+              {canDeleteSpanish && <DeleteSpanish type={Type} id={word.id} callback={requestSpanish} />}
             </li>
           ))}
       </ul>
