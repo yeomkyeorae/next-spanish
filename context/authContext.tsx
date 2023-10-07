@@ -17,9 +17,9 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     onUserStateChange((user: User | null) => {
       setUser(user);
 
-      if (!user && pathname !== '/') {
-        router.push('/');
-      }
+      // if (!user && pathname !== '/') {
+      //   router.push('/');
+      // }
     });
   }, [pathname, router]);
 

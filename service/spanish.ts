@@ -1,14 +1,32 @@
-import { collection, addDoc, query, getDocs, limit, deleteDoc, doc, orderBy, startAt, endAt } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  query,
+  getDocs,
+  limit,
+  deleteDoc,
+  doc,
+  orderBy,
+  startAt,
+  endAt,
+  where,
+} from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
 import { MAX_QUERY_NUMBER } from '@/def';
 
-export const getSpanish = async (type: 'words' | 'sentences', startAtChar: string, limitNumber?: number) => {
+export const getSpanish = async (
+  userId: string,
+  type: 'word' | 'sentence',
+  startAtChar: string,
+  limitNumber?: number,
+) => {
   const citiesRef = collection(dbService, type);
 
   // Create a query against the collection.
   const q = query(
     citiesRef,
+    where('userId', '==', userId),
     limit(limitNumber ?? MAX_QUERY_NUMBER),
     orderBy('spanish'),
     startAt(startAtChar),
@@ -30,12 +48,13 @@ export const getSpanish = async (type: 'words' | 'sentences', startAtChar: strin
   return words;
 };
 
-export const enrollSpanish = async (type: 'words' | 'sentences', spanish: string, korean: string) => {
+export const enrollSpanish = async (userId: string, type: 'word' | 'sentence', spanish: string, korean: string) => {
   try {
     const docRef = await addDoc(collection(dbService, type), {
       spanish: spanish,
       korean: korean,
       createdDate: new Date().toISOString(),
+      userId,
     });
 
     console.log('Document written with ID: ', docRef.id);
@@ -44,7 +63,7 @@ export const enrollSpanish = async (type: 'words' | 'sentences', spanish: string
   }
 };
 
-export const deleteSpanish = async (type: 'words' | 'sentences', id: string) => {
+export const deleteSpanish = async (type: 'word' | 'sentence', id: string) => {
   try {
     await deleteDoc(doc(dbService, type, id));
   } catch (err) {

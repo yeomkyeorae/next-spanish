@@ -14,7 +14,7 @@ type Props = {
   canSortSpanish?: boolean;
 };
 
-const Type = 'sentences';
+const Type = 'sentence';
 
 export default function SentenceList({
   limitNumber,
@@ -26,7 +26,8 @@ export default function SentenceList({
   const [startAtChar, setStartAtChar] = useState(canSortSpanish ? WORD_REPRESENTS[0] : '');
 
   const requestSpanish = useCallback(async () => {
-    const spanish = await getSpanish(Type, startAtChar, limitNumber ?? undefined);
+    const userId = 'MKj0cg3e5dZuqA3cKfHGQmdQX2K2';
+    const spanish = await getSpanish(userId, Type, startAtChar, limitNumber ?? undefined);
     setWords(spanish);
   }, [limitNumber, startAtChar]);
 

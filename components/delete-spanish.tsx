@@ -2,7 +2,7 @@ import { deleteSpanish } from '@/service/spanish';
 import { IoMdRemoveCircle } from 'react-icons/io';
 
 type Props = {
-  type: 'words' | 'sentences';
+  type: 'word' | 'sentence';
   id: string;
   callback?: () => void;
 };
