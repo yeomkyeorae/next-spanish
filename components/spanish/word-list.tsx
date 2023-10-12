@@ -5,6 +5,7 @@ import { Spanish } from '@/types';
 import DeleteSpanish from '../delete-spanish';
 import EnrollSpanish from '../enroll-spanish';
 import { getSpanish } from '@/service/spanish';
+import Alfabeto from './alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 
 type Props = {
@@ -39,11 +40,9 @@ export default function WordList({
     <div>
       {canAddSpanish && <EnrollSpanish type={Type} callback={requestSpanish} />}
       {canSortSpanish && (
-        <ul style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
+        <ul className='flex gap-2 my-4'>
           {WORD_REPRESENTS.map((word, index) => (
-            <li key={index} onClick={() => setStartAtChar(word)}>
-              {word}
-            </li>
+            <Alfabeto key={index} word={word} onClickHandler={() => setStartAtChar(word)} />
           ))}
         </ul>
       )}

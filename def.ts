@@ -11,7 +11,7 @@ export const WORD_REPRESENTS = [
   'h',
   'i',
   'j',
-  'k',
+  // 'k',
   'l',
   'm',
   'n',
@@ -26,6 +26,6 @@ export const WORD_REPRESENTS = [
   'v',
   'w',
   'x',
-  'y',
+  // 'y',
   'z',
 ];
