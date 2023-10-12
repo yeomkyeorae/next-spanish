@@ -6,7 +6,7 @@ import Button from './button';
 import { enrollSpanish } from '@/service/spanish';
 
 type Props = {
-  type: 'words' | 'sentences';
+  type: 'word' | 'sentence';
   callback: () => void;
 };
 
@@ -16,7 +16,8 @@ export default function EnrollSpanish({ type, callback }: Props) {
 
   const onClickHandler = async () => {
     try {
-      await enrollSpanish(type, spanish, korean);
+      const userId = 'MKj0cg3e5dZuqA3cKfHGQmdQX2K2';
+      await enrollSpanish(userId, type, spanish, korean);
 
       setSpanish('');
       setKorean('');
