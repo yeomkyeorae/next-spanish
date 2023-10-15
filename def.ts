@@ -29,3 +29,10 @@ export const WORD_REPRESENTS = [
   // 'y',
   'z',
 ];
+
+export const SPECIAL_ALFABETOS = {
+  Uppercase: ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ü', 'Ñ'],
+  Lowercase: ['á', 'é', 'í', 'ó', 'ú', 'ü', 'ñ'],
+};
+
+export const SPECIAL_SIGN = ['¿', '¡'];
