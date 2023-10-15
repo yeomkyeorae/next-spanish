@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Input from './input';
 import Button from './button';
 import { enrollSpanish } from '@/service/spanish';
+import SpecialKeyboard from './special-keyboard';
 
 type Props = {
   type: 'word' | 'sentence';
@@ -30,12 +31,17 @@ export default function EnrollSpanish({ type, callback }: Props) {
     }
   };
 
+  const charClickHandler = (char: string) => {
+    setSpanish(spanish + char);
+  };
+
   return (
     <div className='flex flex-col items-center'>
       <div className='flex justify-center'>
         <Input value={spanish} placeholder='Español' setValue={setSpanish} />
         <Input value={korean} placeholder='한국어' setValue={setKorean} />
       </div>
+      <SpecialKeyboard charClickHandler={charClickHandler} accentClickHandler={() => {}} />
       <Button text='추가' onClickHandler={onClickHandler} />
     </div>
   );
