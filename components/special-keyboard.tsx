@@ -37,7 +37,6 @@ export default function SpecialKeyboard({ charClickHandler, accentClickHandler }
           <button onClick={changeCharType} className='border-2 broder-solid rounded-md border-black mr-1'>
             대소문자 변환
           </button>
-          <button className='border-2 broder-solid rounded-md border-black'>강세 주기</button>
         </div>
       </ul>
     </section>
