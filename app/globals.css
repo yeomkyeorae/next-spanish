@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   height: 100vh;
   overflow-y: auto;
+}
+
+.markdown > * {
+  all: revert;
 }
