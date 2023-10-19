@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { Spanish } from '@/types';
 import DeleteSpanish from '../delete-spanish';
 import EnrollSpanish from '../enroll-spanish';
 import { getSpanish } from '@/service/spanish';
 import { WORD_REPRESENTS } from '@/def';
+import { useAuthContext } from '@/context/authContext';
 
 type Props = {
   limitNumber?: number;
@@ -24,12 +25,16 @@ export default function SentenceList({
 }: Props) {
   const [words, setWords] = useState<Spanish[]>([]);
   const [startAtChar, setStartAtChar] = useState(canSortSpanish ? WORD_REPRESENTS[0] : '');
+  const { user } = useAuthContext();
 
   const requestSpanish = useCallback(async () => {
-    const userId = 'MKj0cg3e5dZuqA3cKfHGQmdQX2K2';
-    const spanish = await getSpanish(userId, Type, startAtChar, limitNumber ?? undefined);
-    setWords(spanish);
-  }, [limitNumber, startAtChar]);
+    const userId = user?.uid;
+
+    if (userId) {
+      const spanish = await getSpanish(userId, Type, startAtChar, limitNumber ?? undefined);
+      setWords(spanish);
+    }
+  }, [limitNumber, startAtChar, user]);
 
   useEffect(() => {
     requestSpanish();
