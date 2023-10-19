@@ -24,8 +24,8 @@ export default function DeleteSpanish({ type, id, callback }: Props) {
   };
 
   return (
-    <span onClick={clickHandler}>
-      <IoMdRemoveCircle className='text-red-600' />
+    <span onClick={clickHandler} className='cursor-pointer'>
+      <IoMdRemoveCircle className='text-yellow-400' />
     </span>
   );
 }
