@@ -26,18 +26,14 @@ export default function SpecialKeyboard({ charClickHandler, accentClickHandler }
             {char}
           </li>
         ))}
-      </ul>
-      <ul className='flex gap-1'>
         {SPECIAL_SIGN.map((char) => (
           <li key={char} className={keyboardStyle} onClick={() => charClickHandler(char)}>
             {char}
           </li>
         ))}
-        <div>
-          <button onClick={changeCharType} className='border-2 broder-solid rounded-md border-black mr-1'>
-            대소문자 변환
-          </button>
-        </div>
+        <button onClick={changeCharType} className='border-2 broder-solid rounded-md border-black mr-1'>
+          대소문자 변환
+        </button>
       </ul>
     </section>
   );
