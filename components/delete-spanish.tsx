@@ -10,10 +10,13 @@ type Props = {
 export default function DeleteSpanish({ type, id, callback }: Props) {
   const clickHandler = async () => {
     try {
-      await deleteSpanish(type, id);
+      const ok = confirm('삭제하시겠습니까?');
+      if (ok) {
+        await deleteSpanish(type, id);
 
-      if (callback) {
-        callback();
+        if (callback) {
+          callback();
+        }
       }
     } catch (err) {
       console.log(err);
