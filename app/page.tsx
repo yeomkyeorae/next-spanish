@@ -3,6 +3,7 @@
 import { useAuthContext } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function Home() {
   const router = useRouter();
@@ -16,8 +17,16 @@ export default function Home() {
   }, [user, router]);
 
   return (
-    <>
-      <button onClick={login}>로그인</button>
-    </>
+    <section className='bg-highFever h-full flex justify-center items-center shadow-lg'>
+      <button
+        className='text-xl w-72 h-16 rounded-full flex justify-center items-center bg-lowFever shadow-2xl cursor-pointer'
+        onClick={login}
+      >
+        <span className='flex items-center gap-2'>
+          <FcGoogle className='text-4xl' />
+          구글 로그인
+        </span>
+      </button>
+    </section>
   );
 }
