@@ -13,7 +13,8 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        highFever: '#f24a4a',
+        highFever: '#eb2f06',
+        midFever: '#f24a4a',
         lowFever: '#efc7c7',
       },
     },

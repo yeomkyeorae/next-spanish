@@ -8,6 +8,7 @@ import Alfabeto from './alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
 import Word from './word';
+import Divider from '../divider';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -36,6 +37,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   return (
     <div>
       <EnrollSpanish type={Type} callback={requestSpanish} />
+      <Divider />
       {canSortSpanish && (
         <ul className='flex gap-2 my-4'>
           {WORD_REPRESENTS.map((word, index) => (
