@@ -17,12 +17,12 @@ export default function Home() {
   }, [user, router]);
 
   return (
-    <section className='bg-highFever h-full flex justify-center items-center shadow-lg'>
+    <section className='bg-midFever h-full flex justify-center items-center shadow-lg'>
       <button
         className='text-xl w-72 h-16 rounded-full flex justify-center items-center bg-lowFever shadow-2xl cursor-pointer'
         onClick={login}
       >
-        <span className='flex items-center gap-2'>
+        <span className='flex items-center gap-2 text-gray-600 font-semibold'>
           <FcGoogle className='text-4xl' />
           구글 로그인
         </span>

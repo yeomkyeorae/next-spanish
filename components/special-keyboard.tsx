@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { SPECIAL_ALFABETOS, SPECIAL_SIGN } from '@/def';
 
-const keyboardStyle = 'w-8 h-8 border-2 border-gray-500 text-center';
+const keyboardStyle =
+  'w-8 h-8 border-2 border-black rounded-md text-center text-white bg-highFever cursor-pointer shadow-lg';
 
 type Props = {
   charClickHandler: (char: string) => void;
-  accentClickHandler: () => void;
 };
 
-export default function SpecialKeyboard({ charClickHandler, accentClickHandler }: Props) {
+export default function SpecialKeyboard({ charClickHandler }: Props) {
   const [charType, setCharType] = useState<'Lowercase' | 'Uppercase'>('Lowercase');
 
   const changeCharType = () => {
@@ -31,7 +31,7 @@ export default function SpecialKeyboard({ charClickHandler, accentClickHandler }
             {char}
           </li>
         ))}
-        <button onClick={changeCharType} className='border-2 broder-solid rounded-md border-black mr-1'>
+        <button onClick={changeCharType} className='border-2 border-black rounded-md mr-1 px-2 text-white bg-highFever'>
           대소문자 변환
         </button>
       </ul>

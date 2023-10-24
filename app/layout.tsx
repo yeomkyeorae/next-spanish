@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { Open_Sans } from 'next/font/google';
+import { Open_Sans, Roboto } from 'next/font/google';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import './globals.css';
 import { AuthContextProvider } from '@/context/authContext';
 
-const openSans = Open_Sans({ subsets: ['latin'] });
+const openSans = Roboto({ weight: '400', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',

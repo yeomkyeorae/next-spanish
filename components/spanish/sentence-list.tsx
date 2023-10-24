@@ -7,6 +7,7 @@ import EnrollSpanish from '../enroll-spanish';
 import { getSpanish } from '@/service/spanish';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
+import Divider from '../divider';
 
 type Props = {
   limitNumber?: number;
@@ -43,6 +44,7 @@ export default function SentenceList({
   return (
     <div>
       {canAddSpanish && <EnrollSpanish type={Type} callback={requestSpanish} />}
+      <Divider />
       {canSortSpanish && (
         <ul style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
           {WORD_REPRESENTS.map((word, index) => (
