@@ -9,6 +9,7 @@ import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
 import Word from './word';
 import Divider from '../divider';
+import { WORD_MAX_LENGTH } from '@/def';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -25,7 +26,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
     const userId = user?.uid;
 
     if (userId) {
-      const spanish = await getSpanish(userId, Type, startAtChar);
+      const spanish = await getSpanish(userId, Type, startAtChar, WORD_MAX_LENGTH);
       setWords(spanish);
     }
   }, [startAtChar, user]);
@@ -36,7 +37,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
 
   return (
     <div>
-      <EnrollSpanish type={Type} callback={requestSpanish} />
+      <EnrollSpanish type={Type} callback={requestSpanish} spanishLength={words.length} />
       <Divider />
       {canSortSpanish && (
         <ul className='flex gap-2 my-4'>
@@ -48,14 +49,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
       <ul className='flex flex-col items-center'>
         {words &&
           words.map((word, index) => (
-            <Word
-              key={index}
-              spanish={word.spanish}
-              korean={word.korean}
-              type={Type}
-              id={word.id}
-              callback={requestSpanish}
-            />
+            <Word key={index} spanish={word.spanish} korean={word.korean} id={word.id} callback={requestSpanish} />
           ))}
       </ul>
     </div>

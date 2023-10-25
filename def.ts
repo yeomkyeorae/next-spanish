@@ -1,5 +1,3 @@
-export const MAX_QUERY_NUMBER = 100;
-
 export const WORD_REPRESENTS = [
   'a',
   'b',
@@ -36,3 +34,6 @@ export const SPECIAL_ALFABETOS = {
 };
 
 export const SPECIAL_SIGN = ['¿', '¡'];
+
+export const WORD_MAX_LENGTH = 100;
+export const SENTENCE_MAX_LENGTH = 50;
