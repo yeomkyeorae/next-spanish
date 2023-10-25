@@ -5,26 +5,37 @@ import Input from './input';
 import Button from './button';
 import { enrollSpanish } from '@/service/spanish';
 import SpecialKeyboard from './special-keyboard';
+import { useAuthContext } from '@/context/authContext';
+import { SENTENCE_MAX_LENGTH } from '@/def';
 
 type Props = {
   type: 'word' | 'sentence';
   callback: () => void;
+  spanishLength: number;
 };
 
-export default function EnrollSpanish({ type, callback }: Props) {
+export default function EnrollSpanish({ type, callback, spanishLength }: Props) {
   const [spanish, setSpanish] = useState('');
   const [korean, setKorean] = useState('');
+  const { user } = useAuthContext();
 
   const onClickHandler = async () => {
     try {
-      const userId = 'MKj0cg3e5dZuqA3cKfHGQmdQX2K2';
-      await enrollSpanish(userId, type, spanish, korean);
+      if (spanishLength === SENTENCE_MAX_LENGTH) {
+        alert(`등록할 수 있는 알파벳별 단어 및 전체 문장의 개수는 ${SENTENCE_MAX_LENGTH}개를 넘을 수 없습니다!`);
+        return;
+      }
 
-      setSpanish('');
-      setKorean('');
+      const userId = user?.uid;
+      if (userId) {
+        await enrollSpanish(userId, type, spanish, korean);
 
-      if (callback) {
-        callback();
+        setSpanish('');
+        setKorean('');
+
+        if (callback) {
+          callback();
+        }
       }
     } catch (err) {
       console.log(err);

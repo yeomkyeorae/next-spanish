@@ -16,9 +16,9 @@ export default function Header() {
       <nav className='flex gap-4'>
         {user && (
           <>
-            <Link href='/word'>Word</Link>
-            <Link href='/sentence'>Sentence</Link>
-            <Link href='/note'>Note</Link>
+            <Link href='/word'>단어</Link>
+            <Link href='/sentence'>문장</Link>
+            <Link href='/note'>노트</Link>
             {
               <button className='flex items-start' onClick={logout}>
                 로그아웃

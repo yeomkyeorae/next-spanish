@@ -13,13 +13,12 @@ import {
 } from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
-import { MAX_QUERY_NUMBER } from '@/def';
 
 export const getSpanish = async (
   userId: string,
   type: 'word' | 'sentence',
   startAtChar: string,
-  limitNumber?: number,
+  limitNumber: number,
 ) => {
   const citiesRef = collection(dbService, type);
 
@@ -27,7 +26,7 @@ export const getSpanish = async (
   const q = query(
     citiesRef,
     where('userId', '==', userId),
-    limit(limitNumber ?? MAX_QUERY_NUMBER),
+    limit(limitNumber),
     orderBy('spanish'),
     startAt(startAtChar),
     endAt(startAtChar + '\uf8ff'),
