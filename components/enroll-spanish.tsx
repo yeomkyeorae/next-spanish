@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Input from './input';
 import Button from './button';
 import { enrollSpanish } from '@/service/spanish';
@@ -18,6 +18,8 @@ export default function EnrollSpanish({ type, callback, spanishLength }: Props) 
   const [spanish, setSpanish] = useState('');
   const [korean, setKorean] = useState('');
   const { user } = useAuthContext();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickHandler = async () => {
     try {
@@ -44,11 +46,12 @@ export default function EnrollSpanish({ type, callback, spanishLength }: Props) 
 
   const charClickHandler = (char: string) => {
     setSpanish(spanish + char);
+    inputRef.current?.focus();
   };
 
   return (
     <div className='flex flex-col items-center'>
-      <Input value={spanish} placeholder='Español' setValue={setSpanish} />
+      <Input value={spanish} placeholder='Español' setValue={setSpanish} inputRef={inputRef} />
       <SpecialKeyboard charClickHandler={charClickHandler} />
       <Input value={korean} placeholder='한국어' setValue={setKorean} />
       <Button text='추가' onClickHandler={onClickHandler} />
