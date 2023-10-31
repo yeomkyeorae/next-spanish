@@ -36,4 +36,4 @@ export const SPECIAL_ALFABETOS = {
 export const SPECIAL_SIGN = ['¿', '¡'];
 
 export const WORD_MAX_LENGTH = 100;
-export const SENTENCE_MAX_LENGTH = 50;
+export const SENTENCE_MAX_LENGTH = 100;
