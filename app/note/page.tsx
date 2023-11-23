@@ -25,7 +25,7 @@ export default function Note() {
         </button>
         {noteState === 'note' ? <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2'>수정</button> : null}
       </div>
-      {noteState === 'note' ? <MyNote /> : <EnrollNote />}
+      {noteState === 'note' ? <MyNote /> : <EnrollNote setNoteState={setNoteState} />}
     </section>
   );
 }

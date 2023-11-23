@@ -3,11 +3,17 @@ import remarkGfm from 'remark-gfm';
 
 type Props = {
   markdown: string;
+  width: 'full' | 'half';
 };
 
-export default function NoteMarkdown({ markdown }: Props) {
+export default function NoteMarkdown({ markdown, width }: Props) {
   return (
-    <Markdown className='markdown w-full h-full bg-white rounded-md' remarkPlugins={[remarkGfm]}>
+    <Markdown
+      className={`markdown h-full ${
+        width === 'full' ? 'w-full' : width === 'half' ? 'w-1/2' : 'w-full'
+      } bg-white rounded-md`}
+      remarkPlugins={[remarkGfm]}
+    >
       {markdown}
     </Markdown>
   );

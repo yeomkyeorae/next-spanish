@@ -10,7 +10,7 @@ export default function MyNote() {
   return (
     <section className='flex flex-col items-center w-full h-full'>
       <div className='flex w-3/5 h-full mb-5'>
-        <NoteMarkdown markdown={note} />
+        <NoteMarkdown markdown={note} width='full' />
       </div>
     </section>
   );
