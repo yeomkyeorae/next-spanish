@@ -7,7 +7,7 @@ type Props = {
 
 export default function NoteMarkdown({ markdown }: Props) {
   return (
-    <Markdown className='markdown w-72 h-72 border-2 border-black' remarkPlugins={[remarkGfm]}>
+    <Markdown className='markdown w-full h-full bg-white rounded-md' remarkPlugins={[remarkGfm]}>
       {markdown}
     </Markdown>
   );

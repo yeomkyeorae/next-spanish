@@ -3,14 +3,15 @@ import NoteMarkdown from './note-markdown';
 export default function MyNote() {
   const note = `
   # 1. Spanish?
+    asdf
+    asdf
   `;
 
   return (
-    <section className='flex flex-col items-center'>
-      <div className='flex gap-2'>
+    <section className='flex flex-col items-center w-full h-full'>
+      <div className='flex w-3/5 h-full mb-5'>
         <NoteMarkdown markdown={note} />
       </div>
-      <button className='w-32 h-8 bg-red-300 text-white rounded-md mt-6'>수정</button>
     </section>
   );
 }
