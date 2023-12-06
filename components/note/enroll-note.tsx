@@ -31,7 +31,7 @@ export default function EnrollNote({ setNoteState }: Props) {
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
-      <div className='flex gap-2 w-3/5 h-full'>
+      <div className='flex gap-2 w-4/5 h-full'>
         <textarea className='w-1/2 h-full rounded-md' value={note} onChange={(e) => setNote(e.target.value)} />
         <NoteMarkdown markdown={note} width='half' />
       </div>

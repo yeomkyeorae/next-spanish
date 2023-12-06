@@ -1,15 +1,69 @@
-import { collection, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  where,
+  query,
+  orderBy,
+  getDocs,
+  limit,
+  startAfter,
+  endBefore,
+  limitToLast,
+} from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
+
+export const getFirstNote = async (userId: string) => {
+  const queryResult = query(
+    collection(dbService, 'note'),
+    where('userId', '==', userId),
+    orderBy('createdDate'),
+    limit(1),
+  );
+  const currentSnapshots = await getDocs(queryResult);
+  const firstNote = currentSnapshots.docs[0];
+
+  return firstNote;
+};
+
+export const getNextNote = async (userId: string, currentNote: any) => {
+  const nextQueryResult = query(
+    collection(dbService, 'note'),
+    where('userId', '==', userId),
+    orderBy('createdDate'),
+    startAfter(currentNote),
+    limit(1),
+  );
+
+  const currentSnapshots = await getDocs(nextQueryResult);
+  const nextNote = currentSnapshots.docs[0];
+
+  return nextNote;
+};
+
+export const getBeforeNote = async (userId: string, currentNote: any) => {
+  const beforeQueryResult = query(
+    collection(dbService, 'note'),
+    where('userId', '==', userId),
+    orderBy('createdDate'),
+    endBefore(currentNote),
+    limitToLast(1),
+  );
+
+  const currentSnapshots = await getDocs(beforeQueryResult);
+  const beforeNote = currentSnapshots.docs[0];
+
+  return beforeNote;
+};
 
 export const enrollNote = async (userId: string, content: string) => {
   try {
-    const docRef = await addDoc(collection(dbService, 'note'), {
+    await addDoc(collection(dbService, 'note'), {
       content,
       createdDate: new Date().toISOString(),
       userId,
     });
-
-    console.log('Document written with ID: ', docRef.id);
   } catch (err) {
     throw err;
   }
