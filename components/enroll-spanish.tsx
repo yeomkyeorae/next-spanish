@@ -45,7 +45,8 @@ export default function EnrollSpanish({ type, callback, spanishLength }: Props) 
   };
 
   const charClickHandler = (char: string) => {
-    setSpanish(spanish + char);
+    const currentCursorLocation = inputRef.current?.selectionStart as number;
+    setSpanish(spanish.slice(0, currentCursorLocation) + char + spanish.slice(currentCursorLocation));
     inputRef.current?.focus();
   };
 
