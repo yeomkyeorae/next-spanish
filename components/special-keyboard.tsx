@@ -20,7 +20,7 @@ export default function SpecialKeyboard({ charClickHandler }: Props) {
 
   return (
     <section>
-      <ul className='flex gap-1 mb-1'>
+      <ul className='flex flex-wrap gap-1 mb-1 px-4'>
         {SPECIAL_ALFABETOS[charType].map((char) => (
           <li key={char} className={keyboardStyle} onClick={() => charClickHandler(char)}>
             {char}
