@@ -40,7 +40,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
       <EnrollSpanish type={Type} callback={requestSpanish} spanishLength={words.length} />
       <Divider />
       {canSortSpanish && (
-        <ul className='flex gap-2 my-4'>
+        <ul className='flex flex-wrap justify-center gap-2 my-4 px-4'>
           {WORD_REPRESENTS.map((word, index) => (
             <Alfabeto key={index} word={word} onClickHandler={() => setStartAtChar(word)} />
           ))}
