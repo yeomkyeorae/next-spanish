@@ -11,7 +11,7 @@ export default function Header() {
     <header className='flex justify-between items-center p-4'>
       <div className='flex items-center gap-2'>
         <Image src='/spain-flag.png' width={48} height={18} alt='spain-flag' />
-        <h1 className='text-2xl'>바모스페인</h1>
+        <h1 className='text-2xl hidden sm:block'>바모스페인</h1>
       </div>
       <nav className='flex gap-4'>
         {user && (
