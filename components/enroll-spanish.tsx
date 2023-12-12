@@ -38,6 +38,8 @@ export default function EnrollSpanish({ type, callback, spanishLength }: Props) 
         if (callback) {
           callback();
         }
+
+        alert(`${type === 'sentence' ? '문장' : '단어'} 등록이 완료되었습니다!`);
       }
     } catch (err) {
       console.log(err);
