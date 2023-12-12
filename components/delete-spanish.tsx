@@ -17,6 +17,8 @@ export default function DeleteSpanish({ type, id, callback }: Props) {
         if (callback) {
           callback();
         }
+
+        alert(`${type === 'sentence' ? '문장' : '단어'} 삭제가 완료되었습니다!`);
       }
     } catch (err) {
       console.log(err);
