@@ -6,6 +6,13 @@ html,
 body {
   height: 100vh;
   overflow-y: auto;
+  font-family: -apple-system, NanumBarunGothic, sans-serif;
+}
+
+@font-face {
+  font-family: 'NanumBarunGothic';
+  font-weight: 200;
+  src: url('/fonts/NanumBarunGothic.ttf') format('truetype');
 }
 
 .markdown > * {

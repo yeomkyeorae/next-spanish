@@ -13,14 +13,20 @@ export default function Header() {
         <Image src='/spain-flag.png' width={48} height={18} alt='spain-flag' />
         <h1 className='text-2xl hidden sm:block'>바모스페인</h1>
       </div>
-      <nav className='flex gap-4'>
+      <nav className='flex gap-5'>
         {user && (
           <>
-            <Link href='/word'>단어</Link>
-            <Link href='/sentence'>문장</Link>
-            <Link href='/note'>노트</Link>
+            <Link className='text-xl font-bold hover:text-midFever' href='/word'>
+              단어
+            </Link>
+            <Link className='text-xl font-bold hover:text-midFever' href='/sentence'>
+              문장
+            </Link>
+            <Link className='text-xl font-bold hover:text-midFever' href='/note'>
+              노트
+            </Link>
             {
-              <button className='flex items-start' onClick={logout}>
+              <button className='text-xl font-bold hover:text-midFever flex items-start' onClick={logout}>
                 로그아웃
               </button>
             }
