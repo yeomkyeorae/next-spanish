@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/context/authContext';
+import { MdLogout } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -26,7 +27,8 @@ export default function Header() {
               노트
             </Link>
             {
-              <button className='text-xl font-bold hover:text-midFever flex items-start' onClick={logout}>
+              <button className='text-xl font-bold hover:text-midFever flex items-center' onClick={logout}>
+                <MdLogout />
                 로그아웃
               </button>
             }
