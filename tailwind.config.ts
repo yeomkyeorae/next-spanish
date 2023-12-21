@@ -16,6 +16,7 @@ const config: Config = {
         highFever: '#eb2f06',
         midFever: '#f24a4a',
         lowFever: '#efc7c7',
+        carrot: '#e67e22',
       },
     },
   },

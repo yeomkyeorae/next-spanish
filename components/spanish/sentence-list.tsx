@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Spanish } from '@/types';
+import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from '../enroll-spanish';
 import { getSpanish } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
@@ -13,6 +13,9 @@ const Type = 'sentence';
 
 export default function SentenceList() {
   const [sentences, setSentences] = useState<Spanish[]>([]);
+  const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
+  const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
+
   const { user } = useAuthContext();
 
   const requestSpanish = useCallback(async () => {
@@ -24,18 +27,43 @@ export default function SentenceList() {
     }
   }, [user]);
 
+  const modifyClickHandler = (id: string, spanish: string, korean: string) => {
+    setModifyInfo({
+      mId: id,
+      mSpanish: spanish,
+      mKorean: korean,
+    });
+    setEnrollMode('Modify');
+
+    window.scrollTo(0, 0);
+  };
+
   useEffect(() => {
     requestSpanish();
   }, [requestSpanish]);
 
   return (
     <div>
-      <EnrollSpanish type={Type} callback={requestSpanish} spanishLength={sentences.length} />
+      <EnrollSpanish
+        type={Type}
+        callback={requestSpanish}
+        spanishLength={sentences.length}
+        enrollMode={enrollMode}
+        setEnrollMode={setEnrollMode}
+        modifyInfo={modifyInfo}
+      />
       <Divider />
       <ul>
         {sentences &&
           sentences.map((word, index) => (
-            <Sentence key={index} spanish={word.spanish} korean={word.korean} id={word.id} callback={requestSpanish} />
+            <Sentence
+              key={index}
+              spanish={word.spanish}
+              korean={word.korean}
+              id={word.id}
+              modifyCallback={modifyClickHandler}
+              deleteCallback={requestSpanish}
+            />
           ))}
       </ul>
     </div>

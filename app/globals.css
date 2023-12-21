@@ -4,7 +4,7 @@
 
 html,
 body {
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: auto;
   font-family: -apple-system, NanumBarunGothic, sans-serif;
 }
