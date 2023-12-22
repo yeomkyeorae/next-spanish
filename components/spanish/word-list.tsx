@@ -31,6 +31,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
     if (userId) {
       const spanish = await getSpanish(userId, Type, startAtChar, WORD_MAX_LENGTH);
       setWords(spanish);
+      setEnrollMode('Enroll');
     }
   }, [startAtChar, user]);
 
