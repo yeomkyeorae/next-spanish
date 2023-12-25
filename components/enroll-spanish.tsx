@@ -3,7 +3,7 @@
 import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
 import Input from './input';
 import Button from './button';
-import { enrollSpanish } from '@/service/spanish';
+import { enrollSpanish, modifySpanish } from '@/service/spanish';
 import SpecialKeyboard from './special-keyboard';
 import { useAuthContext } from '@/context/authContext';
 import { SENTENCE_MAX_LENGTH } from '@/def';
@@ -23,8 +23,8 @@ type Props = {
 };
 
 export default function EnrollSpanish({ type, callback, spanishLength, enrollMode, setEnrollMode, modifyInfo }: Props) {
-  const [spanish, setSpanish] = useState(modifyInfo?.mSpanish ?? '');
-  const [korean, setKorean] = useState(modifyInfo?.mKorean ?? '');
+  const [spanish, setSpanish] = useState('');
+  const [korean, setKorean] = useState('');
   const { user } = useAuthContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +35,9 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
         setSpanish(modifyInfo.mSpanish);
         setKorean(modifyInfo.mKorean);
       }
+    } else {
+      setSpanish('');
+      setKorean('');
     }
   }, [enrollMode, modifyInfo]);
 
@@ -69,6 +72,23 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
     setEnrollMode('Enroll');
   };
 
+  const modifyHandler = async () => {
+    if (enrollMode === 'Modify' && modifyInfo) {
+      const { mId } = modifyInfo;
+      try {
+        await modifySpanish(type, mId, spanish, korean);
+
+        if (callback) {
+          callback();
+        }
+
+        alert(`${type === 'sentence' ? '문장' : '단어'} 수정이 완료되었습니다!`);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const charClickHandler = (char: string) => {
     const currentCursorLocation = inputRef.current?.selectionStart as number;
     setSpanish(spanish.slice(0, currentCursorLocation) + char + spanish.slice(currentCursorLocation));
@@ -85,7 +105,7 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
           <Button text='추가' onClickHandler={enrollHandler} />
         ) : (
           <div className='flex gap-2'>
-            <Button text='수정' btnBgColor='bg-carrot' onClickHandler={() => {}} />
+            <Button text='수정' btnBgColor='bg-carrot' onClickHandler={modifyHandler} />
             <Button text='취소' btnBgColor='bg-carrot' onClickHandler={() => cancelHandler()} />
           </div>
         )}

@@ -24,6 +24,7 @@ export default function SentenceList() {
     if (userId) {
       const spanish = await getSpanish(userId, Type, '', SENTENCE_MAX_LENGTH);
       setSentences(spanish);
+      setEnrollMode('Enroll');
     }
   }, [user]);
 

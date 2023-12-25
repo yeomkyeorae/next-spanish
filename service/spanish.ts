@@ -10,6 +10,7 @@ import {
   startAt,
   endAt,
   where,
+  updateDoc,
 } from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
@@ -65,6 +66,17 @@ export const enrollSpanish = async (userId: string, type: 'word' | 'sentence', s
 export const deleteSpanish = async (type: 'word' | 'sentence', id: string) => {
   try {
     await deleteDoc(doc(dbService, type, id));
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const modifySpanish = async (type: 'word' | 'sentence', id: string, spanish: string, korean: string) => {
+  try {
+    await updateDoc(doc(dbService, type, id), {
+      spanish: spanish,
+      korean: korean,
+    });
   } catch (err) {
     throw err;
   }
