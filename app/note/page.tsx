@@ -5,14 +5,16 @@ import MyNote from '@/components/note/my-note';
 import EnrollNote from '@/components/note/enroll-note';
 import { getNextNote, getBeforeNote, getFirstNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
+import { NoteState } from '@/types';
 
 const MenuNameConvert = {
   note: '등록',
   enroll: '노트',
+  modify: '노트',
 };
 
 export default function Note() {
-  const [noteState, setNoteState] = useState<'note' | 'enroll'>('note');
+  const [noteState, setNoteState] = useState<NoteState>('note');
   const [currentNote, setCurrentNote] = useState<any>(null);
   const [content, setContent] = useState<string>('');
   const { user } = useAuthContext();
@@ -62,20 +64,38 @@ export default function Note() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const changeNoteState = () => {
-    setNoteState(noteState === 'note' ? 'enroll' : 'note');
+  const changeNoteState = (noteState: NoteState) => {
+    // let newNoteState: NoteState;
+
+    // if (noteState === 'enroll' || noteState === 'modify') {
+    //   newNoteState = 'note';
+    // } else {
+    //   newNoteState = noteState;
+    // }
+    setNoteState(noteState);
   };
 
   return (
     <section className='bg-midFever h-full flex flex-col items-center'>
       <span className='text-2xl font-bold my-2 text-white'>notas escritas a mano!</span>
       <div className='flex mt-6 mb-6 justify-between'>
-        <button className='w-32 h-8 bg-red-300 text-white rounded-lg mr-2' onClick={changeNoteState}>
+        <button
+          className='w-32 h-8 bg-red-300 text-white rounded-lg mr-2'
+          onClick={() => changeNoteState(noteState === 'note' ? 'enroll' : 'note')}
+        >
           {MenuNameConvert[noteState]}
         </button>
-        {noteState === 'note' ? <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2'>수정</button> : null}
+        {noteState === 'note' ? (
+          <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={() => changeNoteState('modify')}>
+            수정
+          </button>
+        ) : null}
       </div>
-      {noteState === 'note' ? <MyNote content={content} /> : <EnrollNote setNoteState={setNoteState} />}
+      {noteState === 'note' ? (
+        <MyNote content={content} />
+      ) : (
+        <EnrollNote setNoteState={setNoteState} noteState={noteState} />
+      )}
       <button onClick={() => requestBeforeNote()}>before</button>
       <button onClick={() => requestNextNote()}>next</button>
     </section>
