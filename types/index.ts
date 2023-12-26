@@ -7,3 +7,5 @@ export type ModifyInfo = {
   mSpanish: string;
   mKorean: string;
 };
+
+export type NoteState = 'note' | 'enroll' | 'modify';

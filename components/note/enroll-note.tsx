@@ -4,12 +4,14 @@ import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import NoteMarkdown from './note-markdown';
 import { enrollNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
+import { NoteState } from '@/types';
 
 type Props = {
-  setNoteState: Dispatch<SetStateAction<'note' | 'enroll'>>;
+  setNoteState: Dispatch<SetStateAction<NoteState>>;
+  noteState: NoteState;
 };
 
-export default function EnrollNote({ setNoteState }: Props) {
+export default function EnrollNote({ setNoteState, noteState }: Props) {
   const [note, setNote] = useState('');
   const { user } = useAuthContext();
 
@@ -36,7 +38,7 @@ export default function EnrollNote({ setNoteState }: Props) {
         <NoteMarkdown markdown={note} width='half' />
       </div>
       <button className='w-32 h-8 bg-red-300 text-white rounded-md mt-3 mb-5' onClick={onEnrollHandler}>
-        등록
+        {noteState === 'enroll' ? '등록' : '수정'}
       </button>
     </section>
   );
