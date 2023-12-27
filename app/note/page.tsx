@@ -65,14 +65,13 @@ export default function Note() {
   }, []);
 
   const changeNoteState = (noteState: NoteState) => {
-    // let newNoteState: NoteState;
-
-    // if (noteState === 'enroll' || noteState === 'modify') {
-    //   newNoteState = 'note';
-    // } else {
-    //   newNoteState = noteState;
-    // }
     setNoteState(noteState);
+  };
+
+  const deleteNote = () => {
+    const ok = confirm('현재 노트를 삭제하시겠습니까?');
+    if (ok) {
+    }
   };
 
   return (
@@ -86,9 +85,17 @@ export default function Note() {
           {MenuNameConvert[noteState]}
         </button>
         {noteState === 'note' ? (
-          <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={() => changeNoteState('modify')}>
-            수정
-          </button>
+          <>
+            <button
+              className='w-32 h-8 bg-red-300 text-white rounded-md ml-2 mr-2'
+              onClick={() => changeNoteState('modify')}
+            >
+              수정
+            </button>
+            <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={deleteNote}>
+              삭제
+            </button>
+          </>
         ) : null}
       </div>
       {noteState === 'note' ? (
