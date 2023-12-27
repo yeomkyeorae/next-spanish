@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import MyNote from '@/components/note/my-note';
 import EnrollNote from '@/components/note/enroll-note';
-import { getNextNote, getBeforeNote, getFirstNote } from '@/service/note';
+import { getNextNote, getBeforeNote, getFirstNote, deleteNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
 
@@ -68,9 +68,21 @@ export default function Note() {
     setNoteState(noteState);
   };
 
-  const deleteNote = () => {
+  const deleteNoteHandler = async () => {
     const ok = confirm('현재 노트를 삭제하시겠습니까?');
     if (ok) {
+      if (currentNote) {
+        try {
+          const docId = currentNote.id;
+          await deleteNote(docId);
+
+          alert('노트가 삭제되었습니다!');
+
+          requestFirstNote();
+        } catch (err) {
+          console.log(err);
+        }
+      }
     }
   };
 
@@ -92,7 +104,7 @@ export default function Note() {
             >
               수정
             </button>
-            <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={deleteNote}>
+            <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={deleteNoteHandler}>
               삭제
             </button>
           </>
