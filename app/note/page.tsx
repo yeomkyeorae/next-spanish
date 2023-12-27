@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import MyNote from '@/components/note/my-note';
 import EnrollNote from '@/components/note/enroll-note';
-import { getNextNote, getBeforeNote, getFirstNote } from '@/service/note';
+import { getNextNote, getBeforeNote, getFirstNote, deleteNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
 
@@ -65,14 +65,25 @@ export default function Note() {
   }, []);
 
   const changeNoteState = (noteState: NoteState) => {
-    // let newNoteState: NoteState;
-
-    // if (noteState === 'enroll' || noteState === 'modify') {
-    //   newNoteState = 'note';
-    // } else {
-    //   newNoteState = noteState;
-    // }
     setNoteState(noteState);
+  };
+
+  const deleteNoteHandler = async () => {
+    const ok = confirm('현재 노트를 삭제하시겠습니까?');
+    if (ok) {
+      if (currentNote) {
+        try {
+          const docId = currentNote.id;
+          await deleteNote(docId);
+
+          alert('노트가 삭제되었습니다!');
+
+          requestFirstNote();
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
   };
 
   return (
@@ -86,9 +97,17 @@ export default function Note() {
           {MenuNameConvert[noteState]}
         </button>
         {noteState === 'note' ? (
-          <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={() => changeNoteState('modify')}>
-            수정
-          </button>
+          <>
+            <button
+              className='w-32 h-8 bg-red-300 text-white rounded-md ml-2 mr-2'
+              onClick={() => changeNoteState('modify')}
+            >
+              수정
+            </button>
+            <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={deleteNoteHandler}>
+              삭제
+            </button>
+          </>
         ) : null}
       </div>
       {noteState === 'note' ? (
