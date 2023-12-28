@@ -4,13 +4,15 @@ import { useAuthContext } from '@/context/authContext';
 import { MdLogout } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const router = useRouter();
   const { user, logout } = useAuthContext();
 
   return (
     <header className='flex justify-between items-center p-4'>
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center gap-2 cursor-pointer hover:text-midFever' onClick={() => router.push('/word')}>
         <Image src='/spain-flag.png' width={48} height={18} alt='spain-flag' />
         <h1 className='text-2xl hidden sm:block'>바모스페인</h1>
       </div>
