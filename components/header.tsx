@@ -29,9 +29,10 @@ export default function Header() {
               노트
             </Link>
             {
-              <button className='text-xl font-bold hover:text-midFever flex items-center' onClick={logout}>
+              <button className='text-md font-bold hover:text-midFever flex items-center' onClick={logout}>
                 <MdLogout />
-                로그아웃
+                <span className='text-midFever'>{user.displayName ?? ''}</span>
+                {user.displayName ? '님 ' : ''} 로그아웃
               </button>
             }
           </>
