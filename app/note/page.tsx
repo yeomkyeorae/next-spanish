@@ -6,6 +6,7 @@ import EnrollNote from '@/components/note/enroll-note';
 import { getNextNote, getBeforeNote, getFirstNote, deleteNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
+import Button from '@/components/button';
 
 const MenuNameConvert = {
   note: '등록',
@@ -89,24 +90,16 @@ export default function Note() {
   return (
     <section className='bg-midFever h-full flex flex-col items-center'>
       <span className='text-2xl font-bold my-2 text-white'>notas escritas a mano!</span>
-      <div className='flex mt-6 mb-6 justify-between'>
-        <button
-          className='w-32 h-8 bg-red-300 text-white rounded-lg mr-2'
-          onClick={() => changeNoteState(noteState === 'note' ? 'enroll' : 'note')}
-        >
-          {MenuNameConvert[noteState]}
-        </button>
+      <div className='flex gap-2 mt-6 mb-6 justify-between'>
+        <Button
+          text={MenuNameConvert[noteState]}
+          btnBgColor='bg-orange'
+          onClickHandler={() => changeNoteState(noteState === 'note' ? 'enroll' : 'note')}
+        />
         {noteState === 'note' ? (
           <>
-            <button
-              className='w-32 h-8 bg-red-300 text-white rounded-md ml-2 mr-2'
-              onClick={() => changeNoteState('modify')}
-            >
-              수정
-            </button>
-            <button className='w-32 h-8 bg-red-300 text-white rounded-md ml-2' onClick={deleteNoteHandler}>
-              삭제
-            </button>
+            <Button text='수정' btnBgColor='bg-carrot' onClickHandler={() => changeNoteState('modify')} />
+            <Button text='삭제' onClickHandler={deleteNoteHandler} />
           </>
         ) : null}
       </div>
