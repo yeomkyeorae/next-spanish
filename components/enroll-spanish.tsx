@@ -102,11 +102,11 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
       <Input value={korean} placeholder='한국어' setValue={setKorean} />
       <div className='flex'>
         {enrollMode === 'Enroll' ? (
-          <Button text='추가' onClickHandler={enrollHandler} />
+          <Button text='추가' btnBgColor='bg-orange' onClickHandler={enrollHandler} />
         ) : (
           <div className='flex gap-2'>
             <Button text='수정' btnBgColor='bg-carrot' onClickHandler={modifyHandler} />
-            <Button text='취소' btnBgColor='bg-carrot' onClickHandler={() => cancelHandler()} />
+            <Button text='취소' onClickHandler={() => cancelHandler()} />
           </div>
         )}
       </div>
