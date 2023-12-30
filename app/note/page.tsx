@@ -108,8 +108,12 @@ export default function Note() {
       ) : (
         <EnrollNote setNoteState={setNoteState} noteState={noteState} />
       )}
-      <button onClick={() => requestBeforeNote()}>before</button>
-      <button onClick={() => requestNextNote()}>next</button>
+      {noteState === 'note' ? (
+        <>
+          <button onClick={() => requestBeforeNote()}>before</button>
+          <button onClick={() => requestNextNote()}>next</button>
+        </>
+      ) : null}
     </section>
   );
 }
