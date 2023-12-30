@@ -93,7 +93,7 @@ export default function Note() {
       <div className='flex gap-2 mt-6 mb-6 justify-between'>
         <Button
           text={MenuNameConvert[noteState]}
-          btnBgColor='bg-orange'
+          btnBgColor={noteState === 'note' ? 'bg-orange' : 'bg-black'}
           onClickHandler={() => changeNoteState(noteState === 'note' ? 'enroll' : 'note')}
         />
         {noteState === 'note' ? (

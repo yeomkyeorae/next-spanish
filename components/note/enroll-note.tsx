@@ -5,6 +5,7 @@ import NoteMarkdown from './note-markdown';
 import { enrollNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
+import Button from '../button';
 
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteState>>;
@@ -37,9 +38,11 @@ export default function EnrollNote({ setNoteState, noteState }: Props) {
         <textarea className='w-1/2 h-full rounded-md' value={note} onChange={(e) => setNote(e.target.value)} />
         <NoteMarkdown markdown={note} width='half' />
       </div>
-      <button className='w-32 h-8 bg-red-300 text-white rounded-md mt-3 mb-5' onClick={onEnrollHandler}>
-        {noteState === 'enroll' ? '등록' : '수정'}
-      </button>
+      <Button
+        text={noteState === 'enroll' ? '등록' : '수정'}
+        btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
+        onClickHandler={onEnrollHandler}
+      />
     </section>
   );
 }
