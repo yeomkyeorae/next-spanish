@@ -10,10 +10,11 @@ import Button from '../button';
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteState>>;
   noteState: NoteState;
+  currentNote: any;
 };
 
-export default function EnrollNote({ setNoteState, noteState }: Props) {
-  const [note, setNote] = useState('');
+export default function EnrollNote({ setNoteState, noteState, currentNote }: Props) {
+  const [note, setNote] = useState(currentNote ? currentNote.data().content : '');
   const { user } = useAuthContext();
 
   const onEnrollHandler = useCallback(async () => {
@@ -31,6 +32,8 @@ export default function EnrollNote({ setNoteState, noteState }: Props) {
       alert('노트 등록에 실패했습니다!');
     }
   }, [note, user, setNoteState]);
+
+  const onModifyHandler = () => {};
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
