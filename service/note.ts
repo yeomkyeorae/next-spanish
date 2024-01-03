@@ -2,6 +2,7 @@ import {
   collection,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   where,
   query,
@@ -72,6 +73,16 @@ export const enrollNote = async (userId: string, content: string) => {
 export const deleteNote = async (id: string) => {
   try {
     await deleteDoc(doc(dbService, 'note', id));
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const modifyNote = async (id: string, content: string) => {
+  try {
+    await updateDoc(doc(dbService, 'note', id), {
+      content,
+    });
   } catch (err) {
     throw err;
   }

@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import NoteMarkdown from './note-markdown';
-import { enrollNote } from '@/service/note';
+import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
 import Button from '../button';
@@ -11,9 +11,10 @@ type Props = {
   setNoteState: Dispatch<SetStateAction<NoteState>>;
   noteState: NoteState;
   currentNote: any;
+  setContent: Dispatch<SetStateAction<string>>;
 };
 
-export default function EnrollNote({ setNoteState, noteState, currentNote }: Props) {
+export default function EnrollNote({ setNoteState, noteState, currentNote, setContent }: Props) {
   const [note, setNote] = useState(currentNote ? currentNote.data().content : '');
   const { user } = useAuthContext();
 
@@ -26,14 +27,30 @@ export default function EnrollNote({ setNoteState, noteState, currentNote }: Pro
         alert('노트 등록에 성공했습니다!');
 
         setNoteState('note');
+        setContent(note);
       }
     } catch (err) {
       console.log(err);
       alert('노트 등록에 실패했습니다!');
     }
-  }, [note, user, setNoteState]);
+  }, [note, user, setNoteState, setContent]);
 
-  const onModifyHandler = () => {};
+  const onModifyHandler = useCallback(async () => {
+    const userId = user?.uid;
+
+    try {
+      if (userId && currentNote) {
+        await modifyNote(currentNote.id, note);
+        alert('노트 수정에 성공했습니다!');
+
+        setNoteState('note');
+        setContent(note);
+      }
+    } catch (err) {
+      console.log(err);
+      alert('노트 수정에 실패했습니다!');
+    }
+  }, [note, user, setNoteState, currentNote, setContent]);
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
@@ -44,7 +61,7 @@ export default function EnrollNote({ setNoteState, noteState, currentNote }: Pro
       <Button
         text={noteState === 'enroll' ? '등록' : '수정'}
         btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
-        onClickHandler={onEnrollHandler}
+        onClickHandler={currentNote ? onModifyHandler : onEnrollHandler}
       />
     </section>
   );
