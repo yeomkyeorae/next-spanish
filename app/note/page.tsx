@@ -106,7 +106,12 @@ export default function Note() {
       {noteState === 'note' ? (
         <MyNote content={content} requestBeforeNote={requestBeforeNote} requestNextNote={requestNextNote} />
       ) : (
-        <EnrollNote setNoteState={setNoteState} noteState={noteState} currentNote={currentNote} />
+        <EnrollNote
+          setNoteState={setNoteState}
+          noteState={noteState}
+          currentNote={currentNote}
+          setContent={setContent}
+        />
       )}
     </section>
   );
