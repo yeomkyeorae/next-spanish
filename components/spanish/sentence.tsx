@@ -11,7 +11,7 @@ type Props = {
 
 export default function Sentence({ spanish, korean, id, modifyCallback, deleteCallback }: Props) {
   return (
-    <li className='flex items-center h-full w-full rounded-md border-2 mb-2 bg-red-500 text-white'>
+    <li className='flex items-center h-full w-full rounded-md border-2 mb-2 bg-red-500 text-white shadow-inner'>
       <div className='flex w-full justify-between'>
         <div className='flex flex-col p-3'>
           <span className='text-xl'>{spanish}</span>
