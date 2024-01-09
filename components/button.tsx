@@ -9,7 +9,7 @@ export default function Button({ text, btnBgColor, btnFontColor, onClickHandler 
   return (
     <button
       onClick={onClickHandler}
-      className={`w-20 h-10 rounded-full my-1 border-2 border-black shadow-lg ${btnBgColor ?? 'bg-highFever'} ${
+      className={`w-20 h-10 rounded-full my-1 shadow-lg ${btnBgColor ?? 'bg-highFever'} ${
         btnFontColor ?? 'text-white'
       }`}
     >
