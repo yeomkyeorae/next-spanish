@@ -58,11 +58,13 @@ export default function EnrollNote({ setNoteState, noteState, currentNote, setCo
         <textarea className='w-1/2 h-full rounded-md' value={note} onChange={(e) => setNote(e.target.value)} />
         <NoteMarkdown markdown={note} width='half' />
       </div>
-      <Button
-        text={noteState === 'enroll' ? '등록' : '수정'}
-        btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
-        onClickHandler={currentNote ? onModifyHandler : onEnrollHandler}
-      />
+      <div className='my-5'>
+        <Button
+          text={noteState === 'enroll' ? '등록' : '수정'}
+          btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
+          onClickHandler={currentNote ? onModifyHandler : onEnrollHandler}
+        />
+      </div>
     </section>
   );
 }
