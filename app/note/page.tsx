@@ -109,7 +109,7 @@ export default function Note() {
         <EnrollNote
           setNoteState={setNoteState}
           noteState={noteState}
-          currentNote={currentNote}
+          currentNote={noteState === 'modify' ? currentNote : null}
           setContent={setContent}
         />
       )}

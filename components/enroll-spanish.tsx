@@ -92,7 +92,11 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
   const charClickHandler = (char: string) => {
     const currentCursorLocation = inputRef.current?.selectionStart as number;
     setSpanish(spanish.slice(0, currentCursorLocation) + char + spanish.slice(currentCursorLocation));
-    inputRef.current?.focus();
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation + 1);
+    }, 0);
   };
 
   return (
