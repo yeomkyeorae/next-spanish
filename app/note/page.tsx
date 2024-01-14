@@ -60,11 +60,6 @@ export default function Note() {
     }
   }, [user, currentNote]);
 
-  useEffect(() => {
-    requestFirstNote();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const changeNoteState = (noteState: NoteState) => {
     setNoteState(noteState);
   };
@@ -86,6 +81,26 @@ export default function Note() {
       }
     }
   };
+
+  useEffect(() => {
+    requestFirstNote();
+  }, [user, requestFirstNote]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        requestBeforeNote();
+      } else if (event.key === 'ArrowRight') {
+        requestNextNote();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [content, requestNextNote, requestBeforeNote]);
 
   return (
     <section className='bg-midFever h-full flex flex-col items-center'>
