@@ -54,9 +54,9 @@ export default function SentenceList() {
         modifyInfo={modifyInfo}
       />
       <Divider />
-      <ul>
-        {sentences &&
-          sentences.map((word, index) => (
+      {sentences.length > 0 ? (
+        <ul>
+          {sentences.map((word, index) => (
             <Sentence
               key={index}
               spanish={word.spanish}
@@ -66,7 +66,12 @@ export default function SentenceList() {
               deleteCallback={requestSpanish}
             />
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <section className='flex justify-center text-white text-xl p-4'>
+          <div>등록된 문장이 없습니다!</div>
+        </section>
+      )}
     </div>
   );
 }

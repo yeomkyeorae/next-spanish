@@ -26,14 +26,14 @@ export default function Note() {
     if (userId) {
       const firstNote = await getFirstNote(userId);
       setCurrentNote(firstNote);
-      setContent(firstNote?.data()?.content ?? '');
+      setContent(firstNote?.data()?.content ?? '등록된 노트가 없습니다!');
     }
   }, [user]);
 
   const requestNextNote = useCallback(async () => {
     const userId = user?.uid;
 
-    if (userId) {
+    if (userId && currentNote) {
       const nextNote = await getNextNote(userId, currentNote);
 
       if (nextNote) {
@@ -48,7 +48,7 @@ export default function Note() {
   const requestBeforeNote = useCallback(async () => {
     const userId = user?.uid;
 
-    if (userId) {
+    if (userId && currentNote) {
       const beforeNote = await getBeforeNote(userId, currentNote);
 
       if (beforeNote) {
