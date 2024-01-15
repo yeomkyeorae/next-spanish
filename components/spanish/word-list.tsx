@@ -68,9 +68,9 @@ export default function WordList({ canSortSpanish = false }: Props) {
           ))}
         </ul>
       )}
-      <ul className='flex flex-col items-center'>
-        {words &&
-          words.map((word, index) => (
+      {words.length > 0 ? (
+        <ul className='flex flex-col items-center'>
+          {words.map((word, index) => (
             <Word
               key={index}
               spanish={word.spanish}
@@ -80,7 +80,12 @@ export default function WordList({ canSortSpanish = false }: Props) {
               deleteCallback={requestSpanish}
             />
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <section className='flex justify-center text-white text-xl p-4'>
+          <div>등록된 단어가 없습니다!</div>
+        </section>
+      )}
     </div>
   );
 }
