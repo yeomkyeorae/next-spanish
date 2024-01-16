@@ -55,7 +55,11 @@ export default function EnrollNote({ setNoteState, noteState, currentNote, setCo
   return (
     <section className='flex flex-col items-center w-full h-full'>
       <div className='flex gap-2 w-4/5 h-full'>
-        <textarea className='w-1/2 h-full rounded-md' value={note} onChange={(e) => setNote(e.target.value)} />
+        <textarea
+          className='w-full h-full rounded-md lg:w-1/2'
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
         <NoteMarkdown markdown={note} width='half' />
       </div>
       <div className='my-5'>
