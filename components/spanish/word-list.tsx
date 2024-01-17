@@ -19,7 +19,7 @@ const Type = 'word';
 
 export default function WordList({ canSortSpanish = false }: Props) {
   const [words, setWords] = useState<Spanish[]>([]);
-  const [startAtChar, setStartAtChar] = useState(canSortSpanish ? WORD_REPRESENTS[0] : '');
+  const [startAtChar, setStartAtChar] = useState(canSortSpanish ? [WORD_REPRESENTS[0]] : []);
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
 
@@ -29,8 +29,14 @@ export default function WordList({ canSortSpanish = false }: Props) {
     const userId = user?.uid;
 
     if (userId) {
-      const spanish = await getSpanish(userId, Type, startAtChar, WORD_MAX_LENGTH);
-      setWords(spanish);
+      let spanishList: Spanish[] = [];
+      for (let i = 0; i < startAtChar.length; i++) {
+        const spanish = await getSpanish(userId, Type, startAtChar[i], WORD_MAX_LENGTH);
+
+        spanishList = spanishList.concat(spanish);
+      }
+
+      setWords(spanishList);
       setEnrollMode('Enroll');
     }
   }, [startAtChar, user]);
@@ -63,9 +69,23 @@ export default function WordList({ canSortSpanish = false }: Props) {
       <Divider />
       {canSortSpanish && (
         <ul className='flex flex-wrap justify-center gap-2 my-4 px-4'>
-          {WORD_REPRESENTS.map((word, index) => (
-            <Alfabeto key={index} word={word} onClickHandler={() => setStartAtChar(word)} />
-          ))}
+          {WORD_REPRESENTS.map((word, index) => {
+            const startAtChars: string[] = [word];
+
+            if (word === 'a') {
+              startAtChars.push('á');
+            } else if (word === 'e') {
+              startAtChars.push('é');
+            } else if (word === 'i') {
+              startAtChars.push('í');
+            } else if (word === 'o') {
+              startAtChars.push('ó');
+            } else if (word === 'u') {
+              startAtChars.push('ú');
+            }
+
+            return <Alfabeto key={index} word={word} onClickHandler={() => setStartAtChar(startAtChars)} />;
+          })}
         </ul>
       )}
       {words.length > 0 ? (
