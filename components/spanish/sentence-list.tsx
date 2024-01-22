@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from '../enroll-spanish';
-import { getSpanish } from '@/service/spanish';
+import { getSentences } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import Divider from '../divider';
 import Sentence from './sentence';
@@ -22,7 +22,7 @@ export default function SentenceList() {
     const userId = user?.uid;
 
     if (userId) {
-      const spanish = await getSpanish(userId, Type, '', SENTENCE_MAX_LENGTH);
+      const spanish = await getSentences(userId, '', SENTENCE_MAX_LENGTH);
       setSentences(spanish);
       setEnrollMode('Enroll');
     }
