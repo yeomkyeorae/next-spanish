@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from '../enroll-spanish';
-import { getSpanish } from '@/service/spanish';
+import { getWords } from '@/service/spanish';
 import Alfabeto from './alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
@@ -31,7 +31,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
     if (userId) {
       let spanishList: Spanish[] = [];
       for (let i = 0; i < startAtChar.length; i++) {
-        const spanish = await getSpanish(userId, Type, startAtChar[i], WORD_MAX_LENGTH);
+        const spanish = await getWords(userId, startAtChar[i], WORD_MAX_LENGTH);
 
         spanishList = spanishList.concat(spanish);
       }

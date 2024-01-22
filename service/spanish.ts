@@ -15,13 +15,8 @@ import {
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
 
-export const getSpanish = async (
-  userId: string,
-  type: 'word' | 'sentence',
-  startAtChar: string,
-  limitNumber: number,
-) => {
-  const citiesRef = collection(dbService, type);
+export const getWords = async (userId: string, startAtChar: string, limitNumber: number) => {
+  const citiesRef = collection(dbService, 'word');
 
   // Create a query against the collection.
   const q = query(
@@ -46,6 +41,34 @@ export const getSpanish = async (
   });
 
   return words;
+};
+
+export const getSentences = async (userId: string, startAtChar: string, limitNumber: number) => {
+  const citiesRef = collection(dbService, 'sentence');
+
+  // Create a query against the collection.
+  const q = query(
+    citiesRef,
+    where('userId', '==', userId),
+    limit(limitNumber),
+    orderBy('spanish'),
+    startAt(startAtChar),
+    endAt(startAtChar + '\uf8ff'),
+  );
+  const querySnapshot = await getDocs(q);
+
+  const sentences: Spanish[] = [];
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    sentences.push({
+      id: doc.id,
+      spanish: data.spanish,
+      korean: data.korean,
+    });
+  });
+
+  return sentences;
 };
 
 export const enrollSpanish = async (userId: string, type: 'word' | 'sentence', spanish: string, korean: string) => {
