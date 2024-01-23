@@ -11,6 +11,7 @@ import {
   endAt,
   where,
   updateDoc,
+  startAfter,
 } from 'firebase/firestore';
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
@@ -71,6 +72,34 @@ export const getSentences = async (userId: string, startAtChar: string, limitNum
   return sentences;
 };
 
+export const getFirstSentences = async (userId: string, limitNumber: number) => {
+  const queryResult = query(
+    collection(dbService, 'sentence'),
+    where('userId', '==', userId),
+    orderBy('createdDate', 'desc'),
+    limit(limitNumber),
+  );
+  const currentSnapshots = await getDocs(queryResult);
+  const firstSentences = currentSnapshots.docs;
+
+  return firstSentences;
+};
+
+export const getNextSentences = async (userId: string, currentSentence: any, limitNumber: number) => {
+  const nextQueryResult = query(
+    collection(dbService, 'sentence'),
+    where('userId', '==', userId),
+    orderBy('createdDate', 'desc'),
+    startAfter(currentSentence),
+    limit(limitNumber),
+  );
+
+  const currentSnapshots = await getDocs(nextQueryResult);
+  const nextSentences = currentSnapshots.docs;
+
+  return nextSentences;
+};
+
 export const enrollSpanish = async (userId: string, type: 'word' | 'sentence', spanish: string, korean: string) => {
   try {
     const docRef = await addDoc(collection(dbService, type), {
@@ -80,7 +109,7 @@ export const enrollSpanish = async (userId: string, type: 'word' | 'sentence', s
       userId,
     });
 
-    console.log('Document written with ID: ', docRef.id);
+    return docRef.id;
   } catch (err) {
     throw err;
   }
