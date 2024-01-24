@@ -37,3 +37,4 @@ export const SPECIAL_SIGN = ['¿', '¡'];
 
 export const WORD_MAX_LENGTH = 200;
 export const SENTENCE_MAX_LENGTH = 500;
+export const SENTENCE_PER_PAGE = 5;

@@ -4,7 +4,7 @@ import { IoMdRemoveCircle } from 'react-icons/io';
 type Props = {
   type: 'word' | 'sentence';
   id: string;
-  callback?: () => void;
+  callback?: (id: string) => void;
 };
 
 export default function DeleteSpanish({ type, id, callback }: Props) {
@@ -15,7 +15,7 @@ export default function DeleteSpanish({ type, id, callback }: Props) {
         await deleteSpanish(type, id);
 
         if (callback) {
-          callback();
+          callback(id);
         }
 
         alert(`${type === 'sentence' ? '문장' : '단어'} 삭제가 완료되었습니다!`);

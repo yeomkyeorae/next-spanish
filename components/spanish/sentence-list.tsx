@@ -3,30 +3,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from '../enroll-spanish';
-import { getSentences } from '@/service/spanish';
+import { getFirstSentences, getNextSentences } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import Divider from '../divider';
 import Sentence from './sentence';
-import { SENTENCE_MAX_LENGTH } from '@/def';
+import Button from '../button';
+import { SENTENCE_PER_PAGE } from '@/def';
 
 const Type = 'sentence';
 
 export default function SentenceList() {
+  const [lastSentence, setLastSentence] = useState<any>(null);
   const [sentences, setSentences] = useState<Spanish[]>([]);
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
 
   const { user } = useAuthContext();
-
-  const requestSpanish = useCallback(async () => {
-    const userId = user?.uid;
-
-    if (userId) {
-      const spanish = await getSentences(userId, '', SENTENCE_MAX_LENGTH);
-      setSentences(spanish);
-      setEnrollMode('Enroll');
-    }
-  }, [user]);
 
   const modifyClickHandler = (id: string, spanish: string, korean: string) => {
     setModifyInfo({
@@ -39,15 +31,87 @@ export default function SentenceList() {
     window.scrollTo(0, 0);
   };
 
+  const enrollCallback = (newSentence: Spanish) => {
+    setSentences([newSentence, ...sentences]);
+  };
+
+  const modifyCallback = (modifiedSentence: Spanish) => {
+    const { id } = modifiedSentence;
+    setSentences(
+      sentences.map((el) => {
+        if (el.id === id) {
+          return modifiedSentence;
+        } else {
+          return el;
+        }
+      }),
+    );
+  };
+
+  const deleteCallback = (id: string) => {
+    setSentences(sentences.filter((el) => el.id !== id));
+  };
+
+  const requestFirstNote = useCallback(async () => {
+    const userId = user?.uid;
+
+    if (userId) {
+      const firstSentences = await getFirstSentences(userId, SENTENCE_PER_PAGE);
+      setLastSentence(firstSentences[firstSentences.length - 1]);
+
+      const newSentences: Spanish[] = [];
+      firstSentences.forEach((doc) => {
+        const data = doc.data();
+
+        newSentences.push({
+          id: doc.id,
+          spanish: data.spanish,
+          korean: data.korean,
+        });
+      });
+
+      setSentences(sentences.concat(newSentences));
+    }
+  }, [user, sentences]);
+
+  const requestNextNote = useCallback(async () => {
+    const userId = user?.uid;
+
+    if (userId && lastSentence) {
+      const nextSentences = await getNextSentences(userId, lastSentence, SENTENCE_PER_PAGE);
+
+      if (nextSentences) {
+        setLastSentence(nextSentences[nextSentences.length - 1]);
+
+        const newSentences: Spanish[] = [];
+        nextSentences.forEach((doc) => {
+          const data = doc.data();
+
+          newSentences.push({
+            id: doc.id,
+            spanish: data.spanish,
+            korean: data.korean,
+          });
+        });
+
+        setSentences(sentences.concat(newSentences));
+      } else {
+        alert('다음 문장들이 없습니다!');
+      }
+    }
+  }, [user, sentences, lastSentence]);
+
   useEffect(() => {
-    requestSpanish();
-  }, [requestSpanish]);
+    requestFirstNote();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div>
       <EnrollSpanish
         type={Type}
-        callback={requestSpanish}
+        enrollCallback={enrollCallback}
+        modifyCallback={modifyCallback}
         spanishLength={sentences.length}
         enrollMode={enrollMode}
         setEnrollMode={setEnrollMode}
@@ -55,18 +119,21 @@ export default function SentenceList() {
       />
       <Divider />
       {sentences.length > 0 ? (
-        <ul>
-          {sentences.map((word, index) => (
-            <Sentence
-              key={index}
-              spanish={word.spanish}
-              korean={word.korean}
-              id={word.id}
-              modifyCallback={modifyClickHandler}
-              deleteCallback={requestSpanish}
-            />
-          ))}
-        </ul>
+        <section className='flex flex-col items-center mb-2'>
+          <ul>
+            {sentences.map((word, index) => (
+              <Sentence
+                key={index}
+                spanish={word.spanish}
+                korean={word.korean}
+                id={word.id}
+                modifyCallback={modifyClickHandler}
+                deleteCallback={deleteCallback}
+              />
+            ))}
+          </ul>
+          <Button text='더보기' btnBgColor='bg-orange' onClickHandler={requestNextNote} />
+        </section>
       ) : (
         <section className='flex justify-center text-white text-xl p-4'>
           <div>등록된 문장이 없습니다!</div>
