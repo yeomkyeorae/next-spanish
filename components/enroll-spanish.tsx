@@ -7,11 +7,12 @@ import { enrollSpanish, modifySpanish } from '@/service/spanish';
 import SpecialKeyboard from './special-keyboard';
 import { useAuthContext } from '@/context/authContext';
 import { SENTENCE_MAX_LENGTH } from '@/def';
-import { EnrollMode } from '@/types';
+import { EnrollMode, Spanish } from '@/types';
 
 type Props = {
   type: 'word' | 'sentence';
-  callback: () => void;
+  enrollCallback: (input: Spanish) => void;
+  modifyCallback: (input: Spanish) => void;
   spanishLength: number;
   enrollMode: EnrollMode;
   setEnrollMode: Dispatch<SetStateAction<EnrollMode>>;
@@ -22,7 +23,15 @@ type Props = {
   };
 };
 
-export default function EnrollSpanish({ type, callback, spanishLength, enrollMode, setEnrollMode, modifyInfo }: Props) {
+export default function EnrollSpanish({
+  type,
+  enrollCallback,
+  modifyCallback,
+  spanishLength,
+  enrollMode,
+  setEnrollMode,
+  modifyInfo,
+}: Props) {
   const [spanish, setSpanish] = useState('');
   const [korean, setKorean] = useState('');
   const { user } = useAuthContext();
@@ -50,13 +59,13 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
 
       const userId = user?.uid;
       if (userId) {
-        await enrollSpanish(userId, type, spanish, korean);
+        const id = await enrollSpanish(userId, type, spanish, korean);
 
         setSpanish('');
         setKorean('');
 
-        if (callback) {
-          callback();
+        if (enrollCallback) {
+          enrollCallback({ id, spanish, korean });
         }
 
         alert(`${type === 'sentence' ? '문장' : '단어'} 등록이 완료되었습니다!`);
@@ -78,8 +87,8 @@ export default function EnrollSpanish({ type, callback, spanishLength, enrollMod
       try {
         await modifySpanish(type, mId, spanish, korean);
 
-        if (callback) {
-          callback();
+        if (modifyCallback) {
+          modifyCallback({ id: mId, spanish, korean });
         }
 
         alert(`${type === 'sentence' ? '문장' : '단어'} 수정이 완료되었습니다!`);

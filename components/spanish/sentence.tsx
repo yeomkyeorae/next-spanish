@@ -6,7 +6,7 @@ type Props = {
   korean: string;
   id: string;
   modifyCallback: (id: string, spanish: string, korean: string) => void;
-  deleteCallback: () => void;
+  deleteCallback: (id: string) => void;
 };
 
 export default function Sentence({ spanish, korean, id, modifyCallback, deleteCallback }: Props) {

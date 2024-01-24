@@ -60,7 +60,8 @@ export default function WordList({ canSortSpanish = false }: Props) {
     <div>
       <EnrollSpanish
         type={Type}
-        callback={requestSpanish}
+        enrollCallback={requestSpanish}
+        modifyCallback={requestSpanish}
         spanishLength={words.length}
         enrollMode={enrollMode}
         setEnrollMode={setEnrollMode}
