@@ -1,5 +1,6 @@
 import NoteMarkdown from './note-markdown';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 type Props = {
   content: string;
@@ -8,6 +9,22 @@ type Props = {
 };
 
 export default function MyNote({ content, requestBeforeNote, requestNextNote }: Props) {
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        requestBeforeNote();
+      } else if (event.key === 'ArrowRight') {
+        requestNextNote();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [requestBeforeNote, requestNextNote]);
+
   return (
     <section className='flex flex-col items-center w-full h-full'>
       <div className='flex items-center w-7/12 h-full mb-5'>
