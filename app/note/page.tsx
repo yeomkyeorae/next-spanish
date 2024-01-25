@@ -86,22 +86,6 @@ export default function Note() {
     requestFirstNote();
   }, [user, requestFirstNote]);
 
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') {
-        requestBeforeNote();
-      } else if (event.key === 'ArrowRight') {
-        requestNextNote();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [content, requestNextNote, requestBeforeNote]);
-
   return (
     <section className='bg-midFever h-full flex flex-col items-center'>
       <span className='text-2xl font-bold my-2 text-white'>notas escritas a mano!</span>
