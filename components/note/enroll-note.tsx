@@ -10,12 +10,13 @@ import Button from '../button';
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteState>>;
   noteState: NoteState;
-  currentNote: any;
+  content: string | null;
+  noteId: string | null;
   setContent: Dispatch<SetStateAction<string>>;
 };
 
-export default function EnrollNote({ setNoteState, noteState, currentNote, setContent }: Props) {
-  const [note, setNote] = useState(currentNote ? currentNote.data().content : '');
+export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent }: Props) {
+  const [note, setNote] = useState(content ?? '');
   const { user } = useAuthContext();
 
   const onEnrollHandler = useCallback(async () => {
@@ -39,8 +40,8 @@ export default function EnrollNote({ setNoteState, noteState, currentNote, setCo
     const userId = user?.uid;
 
     try {
-      if (userId && currentNote) {
-        await modifyNote(currentNote.id, note);
+      if (userId && noteId) {
+        await modifyNote(noteId, note);
         alert('노트 수정에 성공했습니다!');
 
         setNoteState('note');
@@ -50,7 +51,7 @@ export default function EnrollNote({ setNoteState, noteState, currentNote, setCo
       console.log(err);
       alert('노트 수정에 실패했습니다!');
     }
-  }, [note, user, setNoteState, currentNote, setContent]);
+  }, [note, user, setNoteState, setContent, noteId]);
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
@@ -66,7 +67,7 @@ export default function EnrollNote({ setNoteState, noteState, currentNote, setCo
         <Button
           text={noteState === 'enroll' ? '등록' : '수정'}
           btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
-          onClickHandler={currentNote ? onModifyHandler : onEnrollHandler}
+          onClickHandler={noteId ? onModifyHandler : onEnrollHandler}
         />
       </div>
     </section>
