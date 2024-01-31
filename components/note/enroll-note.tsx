@@ -13,9 +13,10 @@ type Props = {
   content: string | null;
   noteId: string | null;
   setContent: Dispatch<SetStateAction<string>>;
+  requestFirstNote: () => void;
 };
 
-export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent }: Props) {
+export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent, requestFirstNote }: Props) {
   const [note, setNote] = useState(content ?? '');
   const { user } = useAuthContext();
 
@@ -29,12 +30,13 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
 
         setNoteState('note');
         setContent(note);
+        requestFirstNote();
       }
     } catch (err) {
       console.log(err);
       alert('노트 등록에 실패했습니다!');
     }
-  }, [note, user, setNoteState, setContent]);
+  }, [note, user, setNoteState, setContent, requestFirstNote]);
 
   const onModifyHandler = useCallback(async () => {
     const userId = user?.uid;

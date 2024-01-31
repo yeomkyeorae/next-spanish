@@ -19,7 +19,7 @@ export const getFirstNote = async (userId: string) => {
   const queryResult = query(
     collection(dbService, 'note'),
     where('userId', '==', userId),
-    orderBy('createdDate'),
+    orderBy('createdDate', 'desc'),
     limit(1),
   );
   const currentSnapshots = await getDocs(queryResult);
@@ -32,7 +32,7 @@ export const getNextNote = async (userId: string, currentNote: any) => {
   const nextQueryResult = query(
     collection(dbService, 'note'),
     where('userId', '==', userId),
-    orderBy('createdDate'),
+    orderBy('createdDate', 'desc'),
     startAfter(currentNote),
     limit(1),
   );
@@ -47,7 +47,7 @@ export const getBeforeNote = async (userId: string, currentNote: any) => {
   const beforeQueryResult = query(
     collection(dbService, 'note'),
     where('userId', '==', userId),
-    orderBy('createdDate'),
+    orderBy('createdDate', 'desc'),
     endBefore(currentNote),
     limitToLast(1),
   );
@@ -83,6 +83,17 @@ export const modifyNote = async (id: string, content: string) => {
     await updateDoc(doc(dbService, 'note', id), {
       content,
     });
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getNoteCount = async (userId: string) => {
+  try {
+    const queryResult = query(collection(dbService, 'note'), where('userId', '==', userId));
+    const currentSnapshots = await getDocs(queryResult);
+
+    return currentSnapshots.size;
   } catch (err) {
     throw err;
   }

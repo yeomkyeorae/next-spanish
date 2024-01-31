@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import MyNote from '@/components/note/my-note';
 import EnrollNote from '@/components/note/enroll-note';
-import { getNextNote, getBeforeNote, getFirstNote, deleteNote } from '@/service/note';
+import { getNextNote, getBeforeNote, getFirstNote, deleteNote, getNoteCount } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteState } from '@/types';
 import Button from '@/components/button';
@@ -18,6 +18,8 @@ export default function Note() {
   const [noteState, setNoteState] = useState<NoteState>('note');
   const [currentNote, setCurrentNote] = useState<any>(null);
   const [content, setContent] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [maxNoteCount, setMaxNoteCount] = useState(0);
   const { user } = useAuthContext();
 
   const requestFirstNote = useCallback(async () => {
@@ -26,7 +28,15 @@ export default function Note() {
     if (userId) {
       const firstNote = await getFirstNote(userId);
       setCurrentNote(firstNote);
-      setContent(firstNote?.data()?.content ?? '등록된 노트가 없습니다!');
+      const content = firstNote?.data()?.content;
+      setContent(content ?? '등록된 노트가 없습니다!');
+
+      const count = await getNoteCount(userId);
+      setMaxNoteCount(count);
+
+      if (content) {
+        setCurrentPage(1);
+      }
     }
   }, [user]);
 
@@ -39,11 +49,12 @@ export default function Note() {
       if (nextNote) {
         setCurrentNote(nextNote);
         setContent(nextNote?.data()?.content ?? '');
+        setCurrentPage(currentPage + 1);
       } else {
         alert('다음 노트가 없습니다!');
       }
     }
-  }, [user, currentNote]);
+  }, [user, currentNote, currentPage]);
 
   const requestBeforeNote = useCallback(async () => {
     const userId = user?.uid;
@@ -54,11 +65,12 @@ export default function Note() {
       if (beforeNote) {
         setCurrentNote(beforeNote);
         setContent(beforeNote?.data()?.content ?? '');
+        setCurrentPage(currentPage - 1);
       } else {
         alert('이전 노트가 없습니다!');
       }
     }
-  }, [user, currentNote]);
+  }, [user, currentNote, currentPage]);
 
   const changeNoteState = (noteState: NoteState) => {
     setNoteState(noteState);
@@ -103,7 +115,14 @@ export default function Note() {
         ) : null}
       </div>
       {noteState === 'note' ? (
-        <MyNote content={content} requestBeforeNote={requestBeforeNote} requestNextNote={requestNextNote} />
+        <>
+          <MyNote content={content} requestBeforeNote={requestBeforeNote} requestNextNote={requestNextNote} />
+          {currentPage > 0 && maxNoteCount > 0 ? (
+            <span className='text-white mb-5'>
+              {currentPage} / {maxNoteCount}
+            </span>
+          ) : null}
+        </>
       ) : (
         <EnrollNote
           setNoteState={setNoteState}
@@ -111,6 +130,7 @@ export default function Note() {
           content={noteState === 'modify' ? content : null}
           noteId={noteState === 'modify' ? currentNote.id : null}
           setContent={setContent}
+          requestFirstNote={requestFirstNote}
         />
       )}
     </section>
