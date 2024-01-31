@@ -27,7 +27,7 @@ export default function MyNote({ content, requestBeforeNote, requestNextNote }: 
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
-      <div className='flex items-center w-7/12 h-full mb-5'>
+      <div className='flex items-center w-7/12 h-full'>
         <div className='mr-3 text-white text-2xl cursor-pointer hover:text-highFever' onClick={requestBeforeNote}>
           <FaArrowLeft />
         </div>
