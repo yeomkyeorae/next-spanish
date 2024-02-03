@@ -5,17 +5,12 @@ import MyNote from '@/components/note/my-note';
 import EnrollNote from '@/components/note/enroll-note';
 import { getNextNote, getBeforeNote, getFirstNote, deleteNote, getNoteCount } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
-import { NoteState } from '@/types';
+import { NoteStateType } from '@/types';
 import Button from '@/components/button';
-
-const MenuNameConvert = {
-  note: '등록',
-  enroll: '노트',
-  modify: '노트',
-};
+import { MenuNameConvertName, NoteState } from '@/def';
 
 export default function Note() {
-  const [noteState, setNoteState] = useState<NoteState>('note');
+  const [noteState, setNoteState] = useState<NoteStateType>(NoteState.note);
   const [currentNote, setCurrentNote] = useState<any>(null);
   const [content, setContent] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -72,7 +67,7 @@ export default function Note() {
     }
   }, [user, currentNote, currentPage]);
 
-  const changeNoteState = (noteState: NoteState) => {
+  const changeNoteState = (noteState: NoteStateType) => {
     setNoteState(noteState);
   };
 
@@ -103,18 +98,18 @@ export default function Note() {
       <span className='text-2xl font-bold my-2 text-white'>notas escritas a mano!</span>
       <div className='flex gap-2 mt-6 mb-6 justify-between'>
         <Button
-          text={MenuNameConvert[noteState]}
-          btnBgColor={noteState === 'note' ? 'bg-orange' : 'bg-black'}
-          onClickHandler={() => changeNoteState(noteState === 'note' ? 'enroll' : 'note')}
+          text={MenuNameConvertName[noteState]}
+          btnBgColor={noteState === NoteState.note ? 'bg-orange' : 'bg-black'}
+          onClickHandler={() => changeNoteState(noteState === NoteState.note ? NoteState.enroll : NoteState.note)}
         />
-        {noteState === 'note' ? (
+        {noteState === NoteState.note ? (
           <>
-            <Button text='수정' btnBgColor='bg-carrot' onClickHandler={() => changeNoteState('modify')} />
+            <Button text='수정' btnBgColor='bg-carrot' onClickHandler={() => changeNoteState(NoteState.modify)} />
             <Button text='삭제' onClickHandler={deleteNoteHandler} />
           </>
         ) : null}
       </div>
-      {noteState === 'note' ? (
+      {noteState === NoteState.note ? (
         <>
           <MyNote content={content} requestBeforeNote={requestBeforeNote} requestNextNote={requestNextNote} />
           {currentPage > 0 && maxNoteCount > 0 ? (
@@ -127,8 +122,8 @@ export default function Note() {
         <EnrollNote
           setNoteState={setNoteState}
           noteState={noteState}
-          content={noteState === 'modify' ? content : null}
-          noteId={noteState === 'modify' ? currentNote.id : null}
+          content={noteState === NoteState.modify ? content : null}
+          noteId={noteState === NoteState.modify ? currentNote.id : null}
           setContent={setContent}
           requestFirstNote={requestFirstNote}
         />

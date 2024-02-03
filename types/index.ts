@@ -1,3 +1,5 @@
+import { NoteState } from '@/def';
+
 export type Spanish = { id: string; spanish: string; korean: string };
 
 export type EnrollMode = 'Enroll' | 'Modify';
@@ -8,4 +10,4 @@ export type ModifyInfo = {
   mKorean: string;
 };
 
-export type NoteState = 'note' | 'enroll' | 'modify';
+export type NoteStateType = keyof typeof NoteState;
