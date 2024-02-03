@@ -4,12 +4,13 @@ import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import NoteMarkdown from './note-markdown';
 import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
-import { NoteState } from '@/types';
+import { NoteStateType } from '@/types';
+import { NoteState } from '@/def';
 import Button from '../button';
 
 type Props = {
-  setNoteState: Dispatch<SetStateAction<NoteState>>;
-  noteState: NoteState;
+  setNoteState: Dispatch<SetStateAction<NoteStateType>>;
+  noteState: NoteStateType;
   content: string | null;
   noteId: string | null;
   setContent: Dispatch<SetStateAction<string>>;
@@ -28,7 +29,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
         await enrollNote(userId, note);
         alert('노트 등록에 성공했습니다!');
 
-        setNoteState('note');
+        setNoteState(NoteState.note);
         setContent(note);
         requestFirstNote();
       }
@@ -46,7 +47,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
         await modifyNote(noteId, note);
         alert('노트 수정에 성공했습니다!');
 
-        setNoteState('note');
+        setNoteState(NoteState.note);
         setContent(note);
       }
     } catch (err) {
@@ -67,8 +68,8 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
       </div>
       <div className='my-5'>
         <Button
-          text={noteState === 'enroll' ? '등록' : '수정'}
-          btnBgColor={noteState === 'enroll' ? 'bg-orange' : 'bg-carrot'}
+          text={noteState === NoteState.enroll ? '등록' : '수정'}
+          btnBgColor={noteState === NoteState.enroll ? 'bg-orange' : 'bg-carrot'}
           onClickHandler={noteId ? onModifyHandler : onEnrollHandler}
         />
       </div>
