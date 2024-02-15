@@ -11,7 +11,7 @@ export default function NoteMarkdown({ markdown, width }: Props) {
 
   return (
     <Markdown
-      className={`markdown h-full ${
+      className={`markdown break-all h-full ${
         width === 'full' ? 'w-full' : width === 'half' ? 'w-1/2' : 'w-full'
       } bg-white rounded-md ${width === 'half' ? 'hidden lg:block' : ''}`}
       remarkPlugins={[remarkGfm]}
