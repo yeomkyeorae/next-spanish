@@ -7,6 +7,8 @@ type Props = {
 };
 
 export default function NoteMarkdown({ markdown, width }: Props) {
+  const replacedMarkdown = markdown.replace(/\n/gi, '\n\n');
+
   return (
     <Markdown
       className={`markdown h-full ${
@@ -14,7 +16,7 @@ export default function NoteMarkdown({ markdown, width }: Props) {
       } bg-white rounded-md ${width === 'half' ? 'hidden lg:block' : ''}`}
       remarkPlugins={[remarkGfm]}
     >
-      {markdown}
+      {replacedMarkdown}
     </Markdown>
   );
 }
