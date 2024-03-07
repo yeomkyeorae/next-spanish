@@ -50,8 +50,20 @@ export default function EnrollSpanish({
     }
   }, [enrollMode, modifyInfo]);
 
+  const checkInvalidInput = () => {
+    if (spanish.trim() === '' || korean.trim() === '') {
+      alert('단어를 입력해 주세요!');
+      return false;
+    }
+    return true;
+  };
+
   const enrollHandler = async () => {
     try {
+      if (!checkInvalidInput()) {
+        return;
+      }
+
       if (spanishLength === SENTENCE_MAX_LENGTH) {
         alert(`등록할 수 있는 알파벳별 단어 및 전체 문장의 개수는 ${SENTENCE_MAX_LENGTH}개를 넘을 수 없습니다!`);
         return;
@@ -82,6 +94,10 @@ export default function EnrollSpanish({
   };
 
   const modifyHandler = async () => {
+    if (!checkInvalidInput()) {
+      return;
+    }
+
     if (enrollMode === 'Modify' && modifyInfo) {
       const { mId } = modifyInfo;
       try {
