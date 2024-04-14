@@ -50,3 +50,5 @@ export const NoteState = {
   enroll: 'enroll' as 'enroll',
   modify: 'modify' as 'modify',
 };
+
+export const TargetSpanishCharListForInput = ['a', 'e', 'i', 'o', 'u', 'n', 'A', 'E', 'I', 'O', 'U', 'N', '?', '!'];
