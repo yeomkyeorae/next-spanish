@@ -2,11 +2,12 @@
 
 import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
 import Input from './input';
+import SpanishInput from './SpanishInput';
 import Button from './button';
+import SpanishKeyboard from './SpanishKeyboard';
 import { enrollSpanish, modifySpanish } from '@/service/spanish';
-import SpecialKeyboard from './special-keyboard';
 import { useAuthContext } from '@/context/authContext';
-import { SENTENCE_MAX_LENGTH } from '@/def';
+import { SENTENCE_MAX_LENGTH, SpanishConvertDict } from '@/def';
 import { EnrollMode, Spanish } from '@/types';
 
 type Props = {
@@ -34,6 +35,9 @@ export default function EnrollSpanish({
 }: Props) {
   const [spanish, setSpanish] = useState('');
   const [korean, setKorean] = useState('');
+  const [open, setOpen] = useState(false);
+  const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
+  const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
   const { user } = useAuthContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -116,18 +120,45 @@ export default function EnrollSpanish({
 
   const charClickHandler = (char: string) => {
     const currentCursorLocation = inputRef.current?.selectionStart as number;
-    setSpanish(spanish.slice(0, currentCursorLocation) + char + spanish.slice(currentCursorLocation));
+    setSpanish(spanish.slice(0, currentCursorLocation - 1) + char + spanish.slice(currentCursorLocation));
+
+    setOpen(false);
+    setIsActiveSpanishKeyboard(false);
 
     setTimeout(() => {
       inputRef.current?.focus();
-      inputRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation + 1);
+      inputRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation);
     }, 0);
+  };
+
+  const onModalCloseHandler = () => {
+    setOpen(false);
+    setIsActiveSpanishKeyboard(false);
+    inputRef.current?.focus();
   };
 
   return (
     <div className='flex flex-col items-center'>
-      <Input value={spanish} placeholder='Español' setValue={setSpanish} inputRef={inputRef} />
-      <SpecialKeyboard charClickHandler={charClickHandler} />
+      <div className='relative'>
+        <SpanishInput
+          value={spanish}
+          placeholder='Español'
+          setValue={setSpanish}
+          inputRef={inputRef}
+          setOpen={(isOpen) => setOpen(isOpen)}
+          setSpecialChar={setSpecialChar}
+          setIsActiveSpanishKeyboard={setIsActiveSpanishKeyboard}
+        />
+        {open && specialChar && (
+          <SpanishKeyboard
+            specialChar={specialChar}
+            inputRef={inputRef}
+            charClickHandler={charClickHandler}
+            onClose={onModalCloseHandler}
+            isActiveSpanishKeyboard={isActiveSpanishKeyboard}
+          />
+        )}
+      </div>
       <Input value={korean} placeholder='한국어' setValue={setKorean} />
       <div className='flex'>
         {enrollMode === 'Enroll' ? (

@@ -52,3 +52,20 @@ export const NoteState = {
 };
 
 export const TargetSpanishCharListForInput = ['a', 'e', 'i', 'o', 'u', 'n', 'A', 'E', 'I', 'O', 'U', 'N', '?', '!'];
+
+export const SpanishConvertDict = {
+  a: ['á'],
+  A: ['Á'],
+  e: ['é'],
+  E: ['É'],
+  i: ['í'],
+  I: ['Í'],
+  o: ['ó'],
+  O: ['Ó'],
+  u: ['ú', 'ü'],
+  U: ['Ú', 'Ü'],
+  n: ['ñ'],
+  N: ['Ñ'],
+  '?': ['¿'],
+  '!': ['¡'],
+};
