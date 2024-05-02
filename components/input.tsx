@@ -1,18 +1,14 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
 
-export default function Input({
-  value,
-  placeholder,
-  setValue,
-  disabled,
-  inputRef,
-}: {
+interface IInput {
   value: string;
   placeholder: string;
   setValue?: Dispatch<SetStateAction<string>>;
   disabled?: boolean;
   inputRef?: RefObject<HTMLInputElement>;
-}) {
+}
+
+export default function Input({ value, placeholder, setValue, disabled, inputRef }: IInput) {
   return (
     <input
       value={value}
