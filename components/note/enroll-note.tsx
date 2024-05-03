@@ -1,12 +1,13 @@
 'use client';
 
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState, useRef, KeyboardEvent } from 'react';
 import NoteMarkdown from './note-markdown';
 import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';
-import { NoteState } from '@/def';
+import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
 import Button from '../button';
+import SpanishKeyboard from '../SpanishKeyboard';
 
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteStateType>>;
@@ -19,7 +20,12 @@ type Props = {
 
 export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent, requestFirstNote }: Props) {
   const [note, setNote] = useState(content ?? '');
+  const [open, setOpen] = useState(false);
+  const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
+  const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
   const { user } = useAuthContext();
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const onEnrollHandler = useCallback(async () => {
     const userId = user?.uid;
@@ -56,14 +62,60 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
     }
   }, [note, user, setNoteState, setContent, noteId]);
 
+  const charClickHandler = (char: string) => {
+    const currentCursorLocation = textAreaRef.current?.selectionStart as number;
+    setNote(note.slice(0, currentCursorLocation - 1) + char + note.slice(currentCursorLocation));
+
+    setOpen(false);
+    setIsActiveSpanishKeyboard(false);
+
+    setTimeout(() => {
+      textAreaRef.current?.focus();
+      textAreaRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation);
+    }, 0);
+  };
+
+  const onModalCloseHandler = () => {
+    setOpen(false);
+    setIsActiveSpanishKeyboard(false);
+    textAreaRef.current?.focus();
+  };
+
+  const keypressEventHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!e.ctrlKey && !e.metaKey) {
+      if (TargetSpanishCharListForInput.includes(e.key)) {
+        setOpen(true);
+        setIsActiveSpanishKeyboard(false);
+        setSpecialChar(e.key as keyof typeof SpanishConvertDict);
+      } else if (e.key === SpanishKeyboardActivationKey && open) {
+        textAreaRef?.current?.blur();
+        setIsActiveSpanishKeyboard(true);
+      } else {
+        setOpen(false);
+        setSpecialChar(null);
+      }
+    }
+  };
+
   return (
     <section className='flex flex-col items-center w-full h-full'>
-      <div className='flex gap-2 w-4/5 h-full'>
+      <div className='flex gap-2 w-4/5 h-full relative'>
         <textarea
+          ref={textAreaRef}
           className='w-full h-full rounded-md lg:w-1/2'
           value={note}
+          onKeyDown={keypressEventHandler}
           onChange={(e) => setNote(e.target.value)}
         />
+        {open && specialChar && (
+          <SpanishKeyboard
+            specialChar={specialChar}
+            inputRef={textAreaRef}
+            charClickHandler={charClickHandler}
+            onClose={onModalCloseHandler}
+            isActiveSpanishKeyboard={isActiveSpanishKeyboard}
+          />
+        )}
         <NoteMarkdown markdown={note} width='half' />
       </div>
       <div className='my-5'>
