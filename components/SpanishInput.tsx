@@ -1,5 +1,5 @@
 import { Dispatch, KeyboardEvent, RefObject, SetStateAction } from 'react';
-import { TargetSpanishCharListForInput, SpanishConvertDict } from '@/def';
+import { TargetSpanishCharListForInput, SpanishConvertDict, SpanishKeyboardActivationKey } from '@/def';
 
 interface ISpanishInput {
   value: string;
@@ -12,8 +12,6 @@ interface ISpanishInput {
   setSpecialChar: Dispatch<SetStateAction<keyof typeof SpanishConvertDict | null>>;
   setIsActiveSpanishKeyboard: Dispatch<SetStateAction<boolean>>;
 }
-
-const PossibleOtherKeys = ['ArrowUp'];
 
 export default function SpanishInput({
   value,
@@ -32,7 +30,7 @@ export default function SpanishInput({
         setOpen(true);
         setIsActiveSpanishKeyboard(false);
         setSpecialChar(e.key as keyof typeof SpanishConvertDict);
-      } else if (PossibleOtherKeys.includes(e.key) && open) {
+      } else if (e.key === SpanishKeyboardActivationKey && open) {
         inputRef?.current?.blur();
         setIsActiveSpanishKeyboard(true);
       } else {

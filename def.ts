@@ -69,3 +69,5 @@ export const SpanishConvertDict = {
   '?': ['¿'],
   '!': ['¡'],
 };
+
+export const SpanishKeyboardActivationKey = 'ArrowUp';

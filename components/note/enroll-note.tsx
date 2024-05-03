@@ -5,7 +5,7 @@ import NoteMarkdown from './note-markdown';
 import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';
-import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput } from '@/def';
+import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
 import Button from '../button';
 import SpanishKeyboard from '../SpanishKeyboard';
 
@@ -17,8 +17,6 @@ type Props = {
   setContent: Dispatch<SetStateAction<string>>;
   requestFirstNote: () => void;
 };
-
-const PossibleOtherKeys = ['ArrowUp'];
 
 export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent, requestFirstNote }: Props) {
   const [note, setNote] = useState(content ?? '');
@@ -89,7 +87,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
         setOpen(true);
         setIsActiveSpanishKeyboard(false);
         setSpecialChar(e.key as keyof typeof SpanishConvertDict);
-      } else if (PossibleOtherKeys.includes(e.key) && open) {
+      } else if (e.key === SpanishKeyboardActivationKey && open) {
         textAreaRef?.current?.blur();
         setIsActiveSpanishKeyboard(true);
       } else {
