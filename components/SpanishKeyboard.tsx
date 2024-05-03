@@ -50,16 +50,16 @@ export default function SpanishKeyboard({ specialChar, onClose, charClickHandler
   }, [escKeydownHandler]);
 
   return (
-    <div className='absolute z-10 left-0 bottom-full h-12 w-20 rounded-lg'>
-      <div className='flex justify-center items-center bg-gray-500 opacity-80 text-white rounded-lg h-full'>
+    <div className='absolute z-10 left-0 bottom-full h-12 w-20 opacity-80 text-white'>
+      <div className='flex justify-center items-center h-full'>
         <div className='w-full h-full flex'>
           {SpanishConvertDict[specialChar].map((ch, index) => {
-            const style =
-              'w-full h-full flex justify-center items-center cursor-pointer hover:bg-highFever ' +
-              (index === current ? 'bg-highFever' : 'bg-gray-500');
-
             return (
-              <div key={`specialKeyboard` + ch} className={style} onClick={() => charClickHandler(ch)}>
+              <div
+                key={`specialKeyboard` + ch}
+                className={getSpecialKeyboardStyle(SpanishConvertDict[specialChar].length, index, current)}
+                onClick={() => charClickHandler(ch)}
+              >
                 {ch}
               </div>
             );
@@ -68,4 +68,25 @@ export default function SpanishKeyboard({ specialChar, onClose, charClickHandler
       </div>
     </div>
   );
+}
+
+function getSpecialKeyboardStyle(length: number, index: number, current: number) {
+  let base = 'w-full h-full flex justify-center items-center cursor-pointer hover:bg-highFever';
+
+  if (index === current) {
+    base += ' bg-highFever';
+  } else {
+    base += ' bg-gray-500';
+  }
+
+  if (length === 1) {
+    base += ' rounded-md';
+  } else {
+    if (index === 0) {
+      base += ' rounded-l-md';
+    } else {
+      base += ' rounded-r-md';
+    }
+  }
+  return base;
 }
