@@ -7,6 +7,7 @@ interface ISpanishInput {
   setValue?: Dispatch<SetStateAction<string>>;
   disabled?: boolean;
   inputRef?: RefObject<HTMLInputElement>;
+  open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   setSpecialChar: Dispatch<SetStateAction<keyof typeof SpanishConvertDict | null>>;
   setIsActiveSpanishKeyboard: Dispatch<SetStateAction<boolean>>;
@@ -20,28 +21,24 @@ export default function SpanishInput({
   setValue,
   disabled,
   inputRef,
+  open,
   setOpen,
   setSpecialChar,
   setIsActiveSpanishKeyboard,
 }: ISpanishInput) {
   const keypressEventHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!e.ctrlKey && !e.metaKey) {
-      if (TargetSpanishCharListForInput.includes(e.key) || PossibleOtherKeys.includes(e.key)) {
-        if (PossibleOtherKeys.includes(e.key)) {
-          inputRef?.current?.blur();
-          setIsActiveSpanishKeyboard(true);
-        } else {
-          setOpen(true);
-          setIsActiveSpanishKeyboard(false);
-          setSpecialChar(e.key as keyof typeof SpanishConvertDict);
-        }
+      if (TargetSpanishCharListForInput.includes(e.key)) {
+        setOpen(true);
+        setIsActiveSpanishKeyboard(false);
+        setSpecialChar(e.key as keyof typeof SpanishConvertDict);
+      } else if (PossibleOtherKeys.includes(e.key) && open) {
+        inputRef?.current?.blur();
+        setIsActiveSpanishKeyboard(true);
       } else {
         setOpen(false);
         setSpecialChar(null);
       }
-    } else {
-      setOpen(false);
-      setSpecialChar(null);
     }
   };
 

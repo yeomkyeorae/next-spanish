@@ -5,7 +5,7 @@ import { SpanishConvertDict } from '@/def';
 
 type Props = {
   specialChar: keyof typeof SpanishConvertDict;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | HTMLTextAreaElement>;
   charClickHandler: (char: string) => void;
   onClose: () => void;
   isActiveSpanishKeyboard: boolean;
@@ -50,7 +50,7 @@ export default function SpanishKeyboard({ specialChar, onClose, charClickHandler
   }, [escKeydownHandler]);
 
   return (
-    <div className='absolute z-10 bottom-12 h-12 w-20 rounded-lg'>
+    <div className='absolute z-10 left-0 bottom-full h-12 w-20 rounded-lg'>
       <div className='flex justify-center items-center bg-gray-500 opacity-80 text-white rounded-lg h-full'>
         <div className='w-full h-full flex'>
           {SpanishConvertDict[specialChar].map((ch, index) => {

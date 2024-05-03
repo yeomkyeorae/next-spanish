@@ -145,6 +145,7 @@ export default function EnrollSpanish({
           placeholder='Español'
           setValue={setSpanish}
           inputRef={inputRef}
+          open={open}
           setOpen={(isOpen) => setOpen(isOpen)}
           setSpecialChar={setSpecialChar}
           setIsActiveSpanishKeyboard={setIsActiveSpanishKeyboard}
