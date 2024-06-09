@@ -1,9 +1,9 @@
 'use client';
 
 import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
-import Input from './input';
+import Input from './common/Input';
 import SpanishInput from './SpanishInput';
-import Button from './button';
+import Button from './common/Button';
 import SpanishKeyboard from './SpanishKeyboard';
 import { enrollSpanish, modifySpanish } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';

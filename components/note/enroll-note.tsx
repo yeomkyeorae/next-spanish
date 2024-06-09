@@ -6,7 +6,7 @@ import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';
 import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
-import Button from '../button';
+import Button from '../common/Button';
 import SpanishKeyboard from '../SpanishKeyboard';
 
 type Props = {

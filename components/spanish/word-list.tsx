@@ -8,7 +8,7 @@ import Alfabeto from './alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
 import Word from './word';
-import Divider from '../divider';
+import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
 
 type Props = {

@@ -5,9 +5,9 @@ import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from '../enroll-spanish';
 import { getFirstSentences, getNextSentences } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
-import Divider from '../divider';
+import Divider from '../common/Divider';
 import Sentence from './sentence';
-import Button from '../button';
+import Button from '../common/Button';
 import { SENTENCE_PER_PAGE } from '@/def';
 
 const Type = 'sentence';
