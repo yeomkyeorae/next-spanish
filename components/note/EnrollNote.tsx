@@ -1,7 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, useCallback, useState, useRef, KeyboardEvent } from 'react';
-import NoteMarkdown from './note-markdown';
+import NoteMarkdown from './NoteMarkdown';
 import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';

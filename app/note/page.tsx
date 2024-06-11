@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import MyNote from '@/components/note/my-note';
-import EnrollNote from '@/components/note/enroll-note';
+import MyNote from '@/components/note/MyNote';
+import EnrollNote from '@/components/note/EnrollNote';
 import { getNextNote, getBeforeNote, getFirstNote, deleteNote, getNoteCount } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';

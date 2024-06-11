@@ -1,4 +1,4 @@
-import NoteMarkdown from './note-markdown';
+import NoteMarkdown from './NoteMarkdown';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useEffect } from 'react';
 
