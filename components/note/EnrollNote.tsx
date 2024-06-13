@@ -7,7 +7,7 @@ import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';
 import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
 import Button from '../common/Button';
-import SpanishKeyboard from '../SpanishKeyboard';
+import SpanishKeyboard from '../keyboard/SpanishKeyboard';
 
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteStateType>>;

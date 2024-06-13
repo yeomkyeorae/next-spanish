@@ -4,7 +4,7 @@ import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
 import Input from './common/Input';
 import SpanishInput from './SpanishInput';
 import Button from './common/Button';
-import SpanishKeyboard from './SpanishKeyboard';
+import SpanishKeyboard from './keyboard/SpanishKeyboard';
 import { enrollSpanish, modifySpanish } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import { SENTENCE_MAX_LENGTH, SpanishConvertDict } from '@/def';
