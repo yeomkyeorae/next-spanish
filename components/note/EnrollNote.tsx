@@ -1,13 +1,13 @@
 'use client';
 
 import { Dispatch, SetStateAction, useCallback, useState, useRef, KeyboardEvent } from 'react';
-import NoteMarkdown from './note-markdown';
+import NoteMarkdown from './NoteMarkdown';
 import { enrollNote, modifyNote } from '@/service/note';
 import { useAuthContext } from '@/context/authContext';
 import { NoteStateType } from '@/types';
 import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
-import Button from '../button';
-import SpanishKeyboard from '../SpanishKeyboard';
+import Button from '../common/Button';
+import SpanishKeyboard from '../keyboard/SpanishKeyboard';
 
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteStateType>>;

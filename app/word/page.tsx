@@ -1,4 +1,4 @@
-import WordList from '@/components/spanish/word-list';
+import WordList from '@/components/spanish/WordList';
 
 export default function Word() {
   return (

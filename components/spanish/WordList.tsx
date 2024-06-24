@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
-import EnrollSpanish from '../enroll-spanish';
+import EnrollSpanish from '../EnrollSpanish';
 import { getWords } from '@/service/spanish';
-import Alfabeto from './alfabeto';
+import Alfabeto from './Alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
-import Word from './word';
-import Divider from '../divider';
+import Word from './Word';
+import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
 
 type Props = {
