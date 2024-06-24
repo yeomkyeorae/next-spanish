@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
-import EnrollSpanish from '../EnrollSpanish';
+import EnrollSpanish from './EnrollSpanish';
 import { getWords } from '@/service/spanish';
 import Alfabeto from './Alfabeto';
 import { WORD_REPRESENTS } from '@/def';
