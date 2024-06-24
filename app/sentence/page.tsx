@@ -1,4 +1,4 @@
-import SentenceList from '@/components/spanish/sentence-list';
+import SentenceList from '@/components/spanish/SentenceList';
 
 export default function Sentence() {
   return (
