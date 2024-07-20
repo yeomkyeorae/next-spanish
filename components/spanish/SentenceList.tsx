@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
-import EnrollSpanish from '../EnrollSpanish';
+import EnrollSpanish from './EnrollSpanish';
 import { getFirstSentences, getNextSentences } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import Divider from '../common/Divider';

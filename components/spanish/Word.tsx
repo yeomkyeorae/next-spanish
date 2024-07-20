@@ -1,5 +1,5 @@
-import ModifySpanish from '../ModifySpanish';
-import DeleteSpanish from '../DeleteSpanish';
+import ModifySpanish from './ModifySpanish';
+import DeleteSpanish from './DeleteSpanish';
 
 type Props = {
   spanish: string;

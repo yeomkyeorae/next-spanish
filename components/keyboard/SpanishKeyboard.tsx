@@ -27,7 +27,7 @@ export default function SpanishKeyboard({ specialChar, onClose, charClickHandler
           }
         } else if (e.key === 'Enter') {
           charClickHandler(SpanishConvertDict[specialChar][current]);
-        } else if (e.key === 'Escape') {
+        } else if (e.key === 'ArrowDown' || e.key === 'Escape') {
           onClose();
         }
       }

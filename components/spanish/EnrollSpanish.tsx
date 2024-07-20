@@ -1,10 +1,10 @@
 'use client';
 
 import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
-import Input from './common/Input';
+import Input from '../common/Input';
 import SpanishInput from './SpanishInput';
-import Button from './common/Button';
-import SpanishKeyboard from './keyboard/SpanishKeyboard';
+import Button from '../common/Button';
+import SpanishKeyboard from '../keyboard/SpanishKeyboard';
 import { enrollSpanish, modifySpanish } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import { SENTENCE_MAX_LENGTH, SpanishConvertDict } from '@/def';
@@ -134,7 +134,13 @@ export default function EnrollSpanish({
   const onModalCloseHandler = () => {
     setOpen(false);
     setIsActiveSpanishKeyboard(false);
-    inputRef.current?.focus();
+
+    const currentCursorLocation = inputRef.current?.selectionStart as number;
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation);
+    }, 0);
   };
 
   return (
