@@ -78,7 +78,13 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
   const onModalCloseHandler = () => {
     setOpen(false);
     setIsActiveSpanishKeyboard(false);
-    textAreaRef.current?.focus();
+
+    const currentCursorLocation = textAreaRef.current?.selectionStart as number;
+
+    setTimeout(() => {
+      textAreaRef.current?.focus();
+      textAreaRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation);
+    }, 0);
   };
 
   const keypressEventHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {

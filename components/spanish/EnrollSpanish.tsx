@@ -134,7 +134,13 @@ export default function EnrollSpanish({
   const onModalCloseHandler = () => {
     setOpen(false);
     setIsActiveSpanishKeyboard(false);
-    inputRef.current?.focus();
+
+    const currentCursorLocation = inputRef.current?.selectionStart as number;
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(currentCursorLocation + 1, currentCursorLocation);
+    }, 0);
   };
 
   return (
