@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <section className='bg-midFever h-full flex justify-center items-center shadow-lg'>
       <button
-        className='text-xl w-72 h-16 rounded-full flex justify-center items-center bg-lowFever shadow-2xl cursor-pointer'
+        className='text-xl w-72 h-16 rounded-full flex justify-center items-center bg-lowFever shadow-2xl cursor-pointer transition duration-200 hover:scale-105'
         onClick={login}
       >
         <span className='flex items-center gap-2 text-gray-600 font-semibold'>
