@@ -20,7 +20,7 @@ export default function Input({ value, placeholder, setValue, disabled, inputRef
       placeholder={placeholder}
       disabled={disabled ?? false}
       className={
-        'w-72 m-1 pl-2 rounded-full border-1 border-black ' +
+        'w-72 h-10 m-1 pl-4 rounded-full border-1 border-black ' +
         (disabled ? 'bg-gray-600 text-stone-100' : 'bg-zinc-200 text-stone-900')
       }
       ref={inputRef}
