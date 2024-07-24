@@ -57,7 +57,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   }, [requestSpanish]);
 
   return (
-    <div>
+    <div className='w-4/5'>
       <EnrollSpanish
         type={Type}
         enrollCallback={requestSpanish}
@@ -90,18 +90,20 @@ export default function WordList({ canSortSpanish = false }: Props) {
         </ul>
       )}
       {words.length > 0 ? (
-        <ul className='flex flex-col items-center'>
-          {words.map((word, index) => (
-            <Word
-              key={index}
-              spanish={word.spanish}
-              korean={word.korean}
-              id={word.id}
-              modifyCallback={modifyClickHandler}
-              deleteCallback={requestSpanish}
-            />
-          ))}
-        </ul>
+        <section className='flex flex-col items-center'>
+          <ul className='w-1/3'>
+            {words.map((word, index) => (
+              <Word
+                key={index}
+                spanish={word.spanish}
+                korean={word.korean}
+                id={word.id}
+                modifyCallback={modifyClickHandler}
+                deleteCallback={requestSpanish}
+              />
+            ))}
+          </ul>
+        </section>
       ) : (
         <section className='flex justify-center text-white text-xl p-4'>
           <div>등록된 단어가 없습니다!</div>
