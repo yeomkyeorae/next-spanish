@@ -107,7 +107,7 @@ export default function SentenceList() {
   }, [user]);
 
   return (
-    <div>
+    <div className='w-4/5'>
       <EnrollSpanish
         type={Type}
         enrollCallback={enrollCallback}
@@ -120,7 +120,7 @@ export default function SentenceList() {
       <Divider />
       {sentences.length > 0 ? (
         <section className='flex flex-col items-center mb-2'>
-          <ul>
+          <ul className='w-2/3'>
             {sentences.map((word, index) => (
               <Sentence
                 key={index}
