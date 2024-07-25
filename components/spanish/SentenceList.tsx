@@ -120,7 +120,7 @@ export default function SentenceList() {
       <Divider />
       {sentences.length > 0 ? (
         <section className='flex flex-col items-center mb-2'>
-          <ul className='w-2/3'>
+          <ul className='w-full md:w-2/3'>
             {sentences.map((word, index) => (
               <Sentence
                 key={index}
