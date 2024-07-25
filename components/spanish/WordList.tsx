@@ -10,6 +10,7 @@ import { useAuthContext } from '@/context/authContext';
 import Word from './Word';
 import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
+import Modal from '../common/Modal';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -22,6 +23,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [startAtChar, setStartAtChar] = useState(canSortSpanish ? [WORD_REPRESENTS[0]] : []);
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { user } = useAuthContext();
 
@@ -50,6 +52,10 @@ export default function WordList({ canSortSpanish = false }: Props) {
     setEnrollMode('Modify');
 
     window.scrollTo(0, 0);
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
   };
 
   useEffect(() => {
@@ -91,7 +97,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
       )}
       {words.length > 0 ? (
         <section className='flex flex-col items-center'>
-          <ul className='w-1/3'>
+          <ul className='w-full md:w-1/2'>
             {words.map((word, index) => (
               <Word
                 key={index}
@@ -100,6 +106,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
                 id={word.id}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
+                openModal={() => openModal()}
               />
             ))}
           </ul>
@@ -109,6 +116,9 @@ export default function WordList({ canSortSpanish = false }: Props) {
           <div>등록된 단어가 없습니다!</div>
         </section>
       )}
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        modal
+      </Modal>
     </div>
   );
 }
