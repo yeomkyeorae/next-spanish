@@ -19,6 +19,4 @@
 
 ### Fix
 
-- textarea에 입력한 것과 markdown 구역에 보여지는 것이 동일하지 않음(특히 과도한 줄바꿈).
-
 ### refactoring
