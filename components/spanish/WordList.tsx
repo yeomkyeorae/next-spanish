@@ -11,6 +11,7 @@ import Word from './Word';
 import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
 import Modal from '../common/Modal';
+import EnrollAdditionalWordInfo from '../additionalWordInfo/EnrollAdditionalWordInfo';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -24,6 +25,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalWordInfo, setModalWordInfo] = useState({ spanish: '', korean: '' });
 
   const { user } = useAuthContext();
 
@@ -54,8 +56,9 @@ export default function WordList({ canSortSpanish = false }: Props) {
     window.scrollTo(0, 0);
   };
 
-  const openModal = () => {
+  const openModal = (spanish: string, korean: string) => {
     setModalOpen(true);
+    setModalWordInfo({ spanish, korean });
   };
 
   useEffect(() => {
@@ -106,7 +109,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
                 id={word.id}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
-                openModal={() => openModal()}
+                openModal={() => openModal(word.spanish, word.korean)}
               />
             ))}
           </ul>
@@ -117,7 +120,14 @@ export default function WordList({ canSortSpanish = false }: Props) {
         </section>
       )}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        modal
+        <section className='flex flex-col w-full'>
+          <span>
+            {modalWordInfo.spanish} - {modalWordInfo.korean}
+          </span>
+          <Divider />
+          <EnrollAdditionalWordInfo />
+          <Divider />
+        </section>
       </Modal>
     </div>
   );
