@@ -55,7 +55,7 @@ export default function EnrollAdditionalWordInfo() {
       )}
       {openInputs && (
         <div className='flex flex-col items-center'>
-          <Input value={korean} placeholder='한국어' setValue={setKorean} />
+          <Input value={korean} placeholder='변화형 구분' setValue={setKorean} />
           <div className='relative'>
             <SpanishInput
               value={spanish}
