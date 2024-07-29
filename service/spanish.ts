@@ -133,3 +133,19 @@ export const modifySpanish = async (type: 'word' | 'sentence', id: string, spani
     throw err;
   }
 };
+
+export const enrollWordInfo = async (userId: string, spanishId: string, spanish: string, explanation: string) => {
+  try {
+    const docRef = await addDoc(collection(dbService, 'additionalWordInfo'), {
+      spanish,
+      spanishId,
+      explanation,
+      createdDate: new Date().toISOString(),
+      userId,
+    });
+
+    return docRef.id;
+  } catch (err) {
+    throw err;
+  }
+};
