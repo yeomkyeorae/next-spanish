@@ -26,7 +26,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalWordInfo, setModalWordInfo] = useState({ spanish: '', korean: '' });
+  const [modalWordInfo, setModalWordInfo] = useState({ wordId: '', spanish: '', korean: '' });
 
   const { user } = useAuthContext();
 
@@ -57,9 +57,9 @@ export default function WordList({ canSortSpanish = false }: Props) {
     window.scrollTo(0, 0);
   };
 
-  const openModal = (spanish: string, korean: string) => {
+  const openModal = (wordId: string, spanish: string, korean: string) => {
     setModalOpen(true);
-    setModalWordInfo({ spanish, korean });
+    setModalWordInfo({ wordId, spanish, korean });
   };
 
   useEffect(() => {
@@ -110,7 +110,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
                 id={word.id}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
-                openModal={() => openModal(word.spanish, word.korean)}
+                openModal={() => openModal(word.id, word.spanish, word.korean)}
               />
             ))}
           </ul>
@@ -126,7 +126,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
             {modalWordInfo.spanish} - {modalWordInfo.korean}
           </span>
           <Divider />
-          <EnrollAdditionalWordInfo />
+          <EnrollAdditionalWordInfo wordId={modalWordInfo.wordId} />
           <Divider />
           <AdditionWordInfoList data={[{ type: '기본형', spanish: 'abril' }]} />
         </section>
