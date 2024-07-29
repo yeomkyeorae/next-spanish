@@ -7,14 +7,21 @@ import SpanishInput from '../spanish/SpanishInput';
 import SpanishKeyboard from '../keyboard/SpanishKeyboard';
 import { SpanishConvertDict } from '@/def';
 import Button from '../common/Button';
+import { useAuthContext } from '@/context/authContext';
+import { enrollWordInfo } from '@/service/spanish';
 
-export default function EnrollAdditionalWordInfo() {
+interface Props {
+  wordId: string;
+}
+
+export default function EnrollAdditionalWordInfo({ wordId }: Props) {
   const [openInputs, setOpenInputs] = useState(false);
   const [spanish, setSpanish] = useState('');
-  const [korean, setKorean] = useState('');
+  const [explanation, setExplanation] = useState('');
   const [open, setOpen] = useState(false);
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
   const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
+  const { user } = useAuthContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,6 +50,19 @@ export default function EnrollAdditionalWordInfo() {
     }, 0);
   };
 
+  const enrollAdditionWordInfo = async () => {
+    try {
+      const userId = user?.uid;
+      if (userId && wordId) {
+        await enrollWordInfo(userId, wordId, spanish, explanation);
+        setSpanish('');
+        setExplanation('');
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
   return (
     <div className='flex flex-col justify-center'>
       {!openInputs && (
@@ -55,7 +75,7 @@ export default function EnrollAdditionalWordInfo() {
       )}
       {openInputs && (
         <div className='flex flex-col items-center'>
-          <Input value={korean} placeholder='변화형 구분' setValue={setKorean} />
+          <Input value={explanation} placeholder='변화형 구분' setValue={setExplanation} />
           <div className='relative'>
             <SpanishInput
               value={spanish}
@@ -78,7 +98,7 @@ export default function EnrollAdditionalWordInfo() {
             )}
           </div>
           <div className='flex gap-2'>
-            <Button text='추가' btnBgColor='bg-orange' onClickHandler={() => {}} />
+            <Button text='추가' btnBgColor='bg-orange' onClickHandler={enrollAdditionWordInfo} />
             <Button text='닫기' onClickHandler={() => setOpenInputs(false)} />
           </div>
         </div>
