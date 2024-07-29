@@ -12,6 +12,7 @@ import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
 import Modal from '../common/Modal';
 import EnrollAdditionalWordInfo from '../additionalWordInfo/EnrollAdditionalWordInfo';
+import AdditionWordInfoList from '../additionalWordInfo/AdditionalWordInfoList';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -120,13 +121,14 @@ export default function WordList({ canSortSpanish = false }: Props) {
         </section>
       )}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <section className='flex flex-col w-full'>
+        <section className='flex flex-col w-full overflow-y-auto'>
           <span>
             {modalWordInfo.spanish} - {modalWordInfo.korean}
           </span>
           <Divider />
           <EnrollAdditionalWordInfo />
           <Divider />
+          <AdditionWordInfoList data={[{ type: '기본형', spanish: 'abril' }]} />
         </section>
       </Modal>
     </div>
