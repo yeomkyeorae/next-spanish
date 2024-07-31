@@ -11,3 +11,9 @@ export type ModifyInfo = {
 };
 
 export type NoteStateType = keyof typeof NoteState;
+
+export interface WordInfo {
+  id: string;
+  explanation: string;
+  spanish: string;
+}
