@@ -134,11 +134,23 @@ export const modifySpanish = async (type: 'word' | 'sentence', id: string, spani
   }
 };
 
-export const enrollWordInfo = async (userId: string, spanishId: string, spanish: string, explanation: string) => {
+export const getWordInfos = async (userId: string, wordId: string) => {
+  const queryResult = query(
+    collection(dbService, 'additionalWordInfo'),
+    where('userId', '==', userId),
+    where('wordId', '==', wordId),
+  );
+  const currentSnapshots = await getDocs(queryResult);
+  const wordInfos = currentSnapshots.docs;
+
+  return wordInfos;
+};
+
+export const enrollWordInfo = async (userId: string, wordId: string, spanish: string, explanation: string) => {
   try {
     const docRef = await addDoc(collection(dbService, 'additionalWordInfo'), {
       spanish,
-      spanishId,
+      wordId,
       explanation,
       createdDate: new Date().toISOString(),
       userId,
