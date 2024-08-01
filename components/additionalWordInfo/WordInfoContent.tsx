@@ -1,8 +1,10 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import Divider from '../common/Divider';
 import EnrollAdditionalWordInfo from './EnrollAdditionalWordInfo';
 import AdditionWordInfoList from './AdditionalWordInfoList';
-import { getWordInfos } from '@/service/spanish';
+import { deleteWordInfo, getWordInfos } from '@/service/spanish';
 import { useAuthContext } from '@/context/authContext';
 import { WordInfo } from '@/types';
 
@@ -41,6 +43,26 @@ export default function WordInfoContent({ modalWordInfo }: Props) {
     }
   }, [modalWordInfo, user]);
 
+  const removeWordInfo = useCallback(
+    async (wordId: string) => {
+      if (wordId) {
+        const ok = confirm('단어 추가 정보를 삭제하시겠습니까?');
+
+        if (ok) {
+          try {
+            await deleteWordInfo(wordId);
+            fetchWordInfos();
+
+            alert('단어 추가 정보가 삭제되었습니다!');
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    },
+    [fetchWordInfos],
+  );
+
   useEffect(() => {
     fetchWordInfos();
   }, [modalWordInfo.wordId, fetchWordInfos]);
@@ -53,7 +75,7 @@ export default function WordInfoContent({ modalWordInfo }: Props) {
       <Divider />
       <EnrollAdditionalWordInfo wordId={modalWordInfo.wordId} />
       <Divider />
-      <AdditionWordInfoList data={wordInfos} />
+      <AdditionWordInfoList data={wordInfos} removeWordInfo={removeWordInfo} />
     </section>
   );
 }
