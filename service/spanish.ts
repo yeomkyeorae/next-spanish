@@ -161,3 +161,11 @@ export const enrollWordInfo = async (userId: string, wordId: string, spanish: st
     throw err;
   }
 };
+
+export const deleteWordInfo = async (id: string) => {
+  try {
+    await deleteDoc(doc(dbService, 'additionalWordInfo', id));
+  } catch (err) {
+    throw err;
+  }
+};
