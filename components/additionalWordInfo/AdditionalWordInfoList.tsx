@@ -13,10 +13,10 @@ export default function AdditionWordInfoList({ data, removeWordInfo }: Props) {
       {data?.length > 0 ? (
         data.map((item, index) => {
           return (
-            <li key={index} className='flex w-4/5 gap-1'>
-              <div className='border-2 border-black w-1/6 p-1'>{item.explanation}</div>
-              <div className='border-2 border-black w-3/6 p-1'>{item.spanish}</div>
-              <div className='border-2 border-black w-1/6 p-1 flex justify-center items-center gap-2'>
+            <li key={index} className='flex justify-center w-4/5 gap-1'>
+              <div className='border-2 border-black w-1/6 p-1 rounded-md'>{item.explanation}</div>
+              <div className='border-2 border-black w-4/6 p-1 rounded-md'>{item.spanish}</div>
+              <div className='border-2 border-black w-1/6 p-1 rounded-md flex justify-center items-center gap-2'>
                 <span className='cursor-pointer'>
                   <FaPen className='text-yellow-400 hover:text-carrot' />
                 </span>
