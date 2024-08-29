@@ -12,9 +12,10 @@ import { enrollWordInfo } from '@/service/spanish';
 
 interface Props {
   wordId: string;
+  fetchWordInfos: () => void;
 }
 
-export default function EnrollAdditionalWordInfo({ wordId }: Props) {
+export default function EnrollAdditionalWordInfo({ wordId, fetchWordInfos }: Props) {
   const [openInputs, setOpenInputs] = useState(false);
   const [spanish, setSpanish] = useState('');
   const [explanation, setExplanation] = useState('');
@@ -57,6 +58,9 @@ export default function EnrollAdditionalWordInfo({ wordId }: Props) {
         await enrollWordInfo(userId, wordId, spanish, explanation);
         setSpanish('');
         setExplanation('');
+        fetchWordInfos();
+
+        alert('단어 추가 정보가 등록되었습니다!');
       }
     } catch (err) {
       console.log('err', err);
