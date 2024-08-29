@@ -73,7 +73,7 @@ export default function WordInfoContent({ modalWordInfo }: Props) {
         {modalWordInfo.spanish} - {modalWordInfo.korean}
       </span>
       <Divider />
-      <EnrollAdditionalWordInfo wordId={modalWordInfo.wordId} />
+      <EnrollAdditionalWordInfo wordId={modalWordInfo.wordId} fetchWordInfos={fetchWordInfos} />
       <Divider />
       <AdditionWordInfoList data={wordInfos} removeWordInfo={removeWordInfo} />
     </section>
