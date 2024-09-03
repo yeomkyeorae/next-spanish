@@ -169,3 +169,14 @@ export const deleteWordInfo = async (id: string) => {
     throw err;
   }
 };
+
+export const modifyWordInfo = async (id: string, spanish: string, explanation: string) => {
+  try {
+    await updateDoc(doc(dbService, 'additionalWordInfo', id), {
+      spanish,
+      explanation,
+    });
+  } catch (err) {
+    throw err;
+  }
+};
