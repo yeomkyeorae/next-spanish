@@ -2,7 +2,7 @@
 
 import { FaPlus } from 'react-icons/fa';
 import Input from '../common/Input';
-import { useRef, useState } from 'react';
+import { SetStateAction, Dispatch, useRef, useState } from 'react';
 import SpanishInput from '../spanish/SpanishInput';
 import SpanishKeyboard from '../keyboard/SpanishKeyboard';
 import { SpanishConvertDict } from '@/def';
@@ -13,12 +13,27 @@ import { enrollWordInfo } from '@/service/spanish';
 interface Props {
   wordId: string;
   fetchWordInfos: () => void;
+  enrollType?: '추가' | '수정';
+  inputs: {
+    spanish: string;
+    setSpanish: Dispatch<SetStateAction<string>>;
+    explanation: string;
+    setExplanation: Dispatch<SetStateAction<string>>;
+    modifyTargetId: string;
+  };
+  cancelModification: () => void;
+  changeWordInfo: (modifyTargetId: string, spanish: string, explanation: string) => void;
 }
 
-export default function EnrollAdditionalWordInfo({ wordId, fetchWordInfos }: Props) {
-  const [openInputs, setOpenInputs] = useState(false);
-  const [spanish, setSpanish] = useState('');
-  const [explanation, setExplanation] = useState('');
+export default function EnrollAdditionalWordInfo({
+  wordId,
+  fetchWordInfos,
+  enrollType = '추가',
+  inputs,
+  cancelModification,
+  changeWordInfo,
+}: Props) {
+  const { spanish, setSpanish, explanation, setExplanation, modifyTargetId } = inputs;
   const [open, setOpen] = useState(false);
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
   const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
@@ -53,14 +68,18 @@ export default function EnrollAdditionalWordInfo({ wordId, fetchWordInfos }: Pro
 
   const enrollAdditionWordInfo = async () => {
     try {
-      const userId = user?.uid;
-      if (userId && wordId) {
-        await enrollWordInfo(userId, wordId, spanish, explanation);
-        setSpanish('');
-        setExplanation('');
-        fetchWordInfos();
+      if (spanish && explanation) {
+        const userId = user?.uid;
+        if (userId && wordId) {
+          await enrollWordInfo(userId, wordId, spanish, explanation);
+          setSpanish('');
+          setExplanation('');
+          fetchWordInfos();
 
-        alert('단어 추가 정보가 등록되었습니다!');
+          alert('단어 추가 정보가 등록되었습니다!');
+        }
+      } else {
+        alert('입력 정보를 확인해 주세요!');
       }
     } catch (err) {
       console.log('err', err);
@@ -69,44 +88,44 @@ export default function EnrollAdditionalWordInfo({ wordId, fetchWordInfos }: Pro
 
   return (
     <div className='flex flex-col justify-center'>
-      {!openInputs && (
-        <div className='flex hover:text-carrot cursor-pointer' onClick={() => setOpenInputs(!openInputs)}>
-          <span>변화형 추가하기</span>
-          <div className='flex items-center'>
-            <FaPlus className='text-yellow-400' />
-          </div>
-        </div>
-      )}
-      {openInputs && (
-        <div className='flex flex-col items-center'>
-          <Input value={explanation} placeholder='변화형 구분' setValue={setExplanation} />
-          <div className='relative'>
-            <SpanishInput
-              value={spanish}
-              placeholder='Español'
-              setValue={setSpanish}
+      <div className='flex flex-col items-center'>
+        <Input value={explanation} placeholder='변화형 구분' setValue={setExplanation} />
+        <div className='relative'>
+          <SpanishInput
+            value={spanish}
+            placeholder='Español'
+            setValue={setSpanish}
+            inputRef={inputRef}
+            open={open}
+            setOpen={(isOpen) => setOpen(isOpen)}
+            setSpecialChar={setSpecialChar}
+            setIsActiveSpanishKeyboard={setIsActiveSpanishKeyboard}
+          />
+          {open && specialChar && (
+            <SpanishKeyboard
+              specialChar={specialChar}
               inputRef={inputRef}
-              open={open}
-              setOpen={(isOpen) => setOpen(isOpen)}
-              setSpecialChar={setSpecialChar}
-              setIsActiveSpanishKeyboard={setIsActiveSpanishKeyboard}
+              charClickHandler={charClickHandler}
+              onClose={onModalCloseHandler}
+              isActiveSpanishKeyboard={isActiveSpanishKeyboard}
             />
-            {open && specialChar && (
-              <SpanishKeyboard
-                specialChar={specialChar}
-                inputRef={inputRef}
-                charClickHandler={charClickHandler}
-                onClose={onModalCloseHandler}
-                isActiveSpanishKeyboard={isActiveSpanishKeyboard}
-              />
-            )}
-          </div>
-          <div className='flex gap-2'>
-            <Button text='추가' btnBgColor='bg-orange' onClickHandler={enrollAdditionWordInfo} />
-            <Button text='닫기' onClickHandler={() => setOpenInputs(false)} />
-          </div>
+          )}
         </div>
-      )}
+        <div className='flex gap-2'>
+          {enrollType === '추가' ? (
+            <Button text='추가' btnBgColor='bg-orange' onClickHandler={enrollAdditionWordInfo} />
+          ) : (
+            <>
+              <Button
+                text='수정'
+                btnBgColor='bg-carrot'
+                onClickHandler={() => changeWordInfo(modifyTargetId, spanish, explanation)}
+              />
+              <Button text='취소' onClickHandler={cancelModification} />
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
