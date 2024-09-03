@@ -139,6 +139,7 @@ export const getWordInfos = async (userId: string, wordId: string) => {
     collection(dbService, 'additionalWordInfo'),
     where('userId', '==', userId),
     where('wordId', '==', wordId),
+    orderBy('createdDate', 'asc'),
   );
   const currentSnapshots = await getDocs(queryResult);
   const wordInfos = currentSnapshots.docs;
