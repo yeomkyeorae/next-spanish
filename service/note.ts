@@ -58,12 +58,13 @@ export const getBeforeNote = async (userId: string, currentNote: any) => {
   return beforeNote;
 };
 
-export const enrollNote = async (userId: string, content: string) => {
+export const enrollNote = async (userId: string, content: string, title: string) => {
   try {
     await addDoc(collection(dbService, 'note'), {
       content,
       createdDate: new Date().toISOString(),
       userId,
+      title,
     });
   } catch (err) {
     throw err;
