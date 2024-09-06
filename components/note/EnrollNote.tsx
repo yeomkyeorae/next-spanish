@@ -8,6 +8,7 @@ import { NoteStateType } from '@/types';
 import { NoteState, SpanishConvertDict, TargetSpanishCharListForInput, SpanishKeyboardActivationKey } from '@/def';
 import Button from '../common/Button';
 import SpanishKeyboard from '../keyboard/SpanishKeyboard';
+import Input from '../common/Input';
 
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteStateType>>;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent, requestFirstNote }: Props) {
+  const [title, setTitle] = useState('');
   const [note, setNote] = useState(content ?? '');
   const [open, setOpen] = useState(false);
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
@@ -32,7 +34,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
 
     try {
       if (userId) {
-        await enrollNote(userId, note);
+        await enrollNote(userId, note, title);
         alert('노트 등록에 성공했습니다!');
 
         setNoteState(NoteState.note);
@@ -105,6 +107,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
+      <Input value={title} placeholder='제목' setValue={setTitle} />
       <div className='flex gap-2 w-4/5 h-full relative'>
         <textarea
           ref={textAreaRef}
