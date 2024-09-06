@@ -79,10 +79,11 @@ export const deleteNote = async (id: string) => {
   }
 };
 
-export const modifyNote = async (id: string, content: string) => {
+export const modifyNote = async (id: string, content: string, title: string) => {
   try {
     await updateDoc(doc(dbService, 'note', id), {
       content,
+      title,
     });
   } catch (err) {
     throw err;
