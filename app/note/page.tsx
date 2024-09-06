@@ -12,6 +12,7 @@ import { MenuNameConvertName, NoteState } from '@/def';
 export default function Note() {
   const [noteState, setNoteState] = useState<NoteStateType>(NoteState.note);
   const [currentNote, setCurrentNote] = useState<any>(null);
+  const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(0);
   const [maxNoteCount, setMaxNoteCount] = useState(0);
@@ -23,7 +24,11 @@ export default function Note() {
     if (userId) {
       const firstNote = await getFirstNote(userId);
       setCurrentNote(firstNote);
+
+      const title = firstNote?.data()?.title;
       const content = firstNote?.data()?.content;
+
+      setTitle(title ?? '제목이 없습니다!');
       setContent(content ?? '등록된 노트가 없습니다!');
 
       const count = await getNoteCount(userId);
@@ -43,6 +48,7 @@ export default function Note() {
 
       if (nextNote) {
         setCurrentNote(nextNote);
+        setTitle(nextNote?.data()?.title ?? '');
         setContent(nextNote?.data()?.content ?? '');
         setCurrentPage(currentPage + 1);
       } else {
@@ -59,6 +65,7 @@ export default function Note() {
 
       if (beforeNote) {
         setCurrentNote(beforeNote);
+        setTitle(beforeNote?.data()?.title ?? '');
         setContent(beforeNote?.data()?.content ?? '');
         setCurrentPage(currentPage - 1);
       } else {
@@ -111,7 +118,12 @@ export default function Note() {
       </div>
       {noteState === NoteState.note ? (
         <>
-          <MyNote content={content} requestBeforeNote={requestBeforeNote} requestNextNote={requestNextNote} />
+          <MyNote
+            title={title}
+            content={content}
+            requestBeforeNote={requestBeforeNote}
+            requestNextNote={requestNextNote}
+          />
           {currentPage > 0 && maxNoteCount > 0 ? (
             <span className='text-white mb-5'>
               {currentPage} / {maxNoteCount}
