@@ -13,14 +13,25 @@ import Input from '../common/Input';
 type Props = {
   setNoteState: Dispatch<SetStateAction<NoteStateType>>;
   noteState: NoteStateType;
+  title: string | null;
   content: string | null;
   noteId: string | null;
+  setTitle: Dispatch<SetStateAction<string>>;
   setContent: Dispatch<SetStateAction<string>>;
   requestFirstNote: () => void;
 };
 
-export default function EnrollNote({ setNoteState, noteState, content, noteId, setContent, requestFirstNote }: Props) {
-  const [title, setTitle] = useState('');
+export default function EnrollNote({
+  setNoteState,
+  noteState,
+  title,
+  content,
+  noteId,
+  setTitle,
+  setContent,
+  requestFirstNote,
+}: Props) {
+  const [noteTitle, setNoteTitle] = useState(title ?? '');
   const [note, setNote] = useState(content ?? '');
   const [open, setOpen] = useState(false);
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
@@ -34,10 +45,11 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
 
     try {
       if (userId) {
-        await enrollNote(userId, note, title);
+        await enrollNote(userId, note, noteTitle);
         alert('노트 등록에 성공했습니다!');
 
         setNoteState(NoteState.note);
+        setTitle(noteTitle);
         setContent(note);
         requestFirstNote();
       }
@@ -45,24 +57,25 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
       console.log(err);
       alert('노트 등록에 실패했습니다!');
     }
-  }, [note, user, setNoteState, setContent, requestFirstNote]);
+  }, [noteTitle, note, user, setNoteState, setTitle, setContent, requestFirstNote]);
 
   const onModifyHandler = useCallback(async () => {
     const userId = user?.uid;
 
     try {
       if (userId && noteId) {
-        await modifyNote(noteId, note);
+        await modifyNote(noteId, note, noteTitle);
         alert('노트 수정에 성공했습니다!');
 
         setNoteState(NoteState.note);
+        setTitle(noteTitle);
         setContent(note);
       }
     } catch (err) {
       console.log(err);
       alert('노트 수정에 실패했습니다!');
     }
-  }, [note, user, setNoteState, setContent, noteId]);
+  }, [noteTitle, note, user, setNoteState, setTitle, setContent, noteId]);
 
   const charClickHandler = (char: string) => {
     const currentCursorLocation = textAreaRef.current?.selectionStart as number;
@@ -107,7 +120,7 @@ export default function EnrollNote({ setNoteState, noteState, content, noteId, s
 
   return (
     <section className='flex flex-col items-center w-full h-full'>
-      <Input value={title} placeholder='제목' setValue={setTitle} />
+      <Input value={noteTitle} placeholder='제목' setValue={setNoteTitle} />
       <div className='flex gap-2 w-4/5 h-full relative'>
         <textarea
           ref={textAreaRef}
