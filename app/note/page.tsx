@@ -134,8 +134,10 @@ export default function Note() {
         <EnrollNote
           setNoteState={setNoteState}
           noteState={noteState}
+          title={noteState === NoteState.modify ? title : null}
           content={noteState === NoteState.modify ? content : null}
           noteId={noteState === NoteState.modify ? currentNote.id : null}
+          setTitle={setTitle}
           setContent={setContent}
           requestFirstNote={requestFirstNote}
         />
