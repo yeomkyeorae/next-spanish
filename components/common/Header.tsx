@@ -4,10 +4,11 @@ import { useAuthContext } from '@/context/authContext';
 import { MdLogout } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, logout } = useAuthContext();
 
   return (
@@ -19,13 +20,22 @@ export default function Header() {
       <nav className='flex gap-5'>
         {user && (
           <>
-            <Link className='text-xl font-bold hover:text-midFever' href='/word'>
+            <Link
+              className={`text-xl font-bold hover:text-midFever ${pathname === '/word' ? 'text-midFever' : ''}`}
+              href='/word'
+            >
               단어
             </Link>
-            <Link className='text-xl font-bold hover:text-midFever' href='/sentence'>
+            <Link
+              className={`text-xl font-bold hover:text-midFever ${pathname === '/sentence' ? 'text-midFever' : ''}`}
+              href='/sentence'
+            >
               문장
             </Link>
-            <Link className='text-xl font-bold hover:text-midFever' href='/note'>
+            <Link
+              className={`text-xl font-bold hover:text-midFever ${pathname === '/note' ? 'text-midFever' : ''}`}
+              href='/note'
+            >
               노트
             </Link>
             {
