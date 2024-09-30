@@ -94,7 +94,16 @@ export default function WordList({ canSortSpanish = false }: Props) {
               startAtChars.push('ú');
             }
 
-            return <Alfabeto key={index} word={word} onClickHandler={() => setStartAtChar(startAtChars)} />;
+            const isCurrentWordSelected = startAtChar.some((el) => startAtChars.includes(el));
+
+            return (
+              <Alfabeto
+                key={index}
+                word={word}
+                isCurrentWordSelected={isCurrentWordSelected}
+                onClickHandler={() => setStartAtChar(startAtChars)}
+              />
+            );
           })}
         </ul>
       )}
