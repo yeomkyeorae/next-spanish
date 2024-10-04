@@ -181,3 +181,22 @@ export const modifyWordInfo = async (id: string, spanish: string, explanation: s
     throw err;
   }
 };
+
+// Firebase docs field 추가용
+export const addFieldEntirely = async (collectionName: string, fieldName: string, fieldValue: any) => {
+  try {
+    const ref = collection(dbService, collectionName);
+
+    const q = query(ref);
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach(async (snap) => {
+      const id = snap.id;
+      await updateDoc(doc(dbService, collectionName, id), {
+        [fieldName]: fieldValue,
+      });
+    });
+  } catch (err) {
+    throw err;
+  }
+};
