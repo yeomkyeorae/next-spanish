@@ -38,6 +38,7 @@ export const getWords = async (userId: string, startAtChar: string, limitNumber:
       id: doc.id,
       spanish: data.spanish,
       korean: data.korean,
+      starChecked: data.starChecked,
     });
   });
 
@@ -66,6 +67,7 @@ export const getSentences = async (userId: string, startAtChar: string, limitNum
       id: doc.id,
       spanish: data.spanish,
       korean: data.korean,
+      starChecked: data.starChecked,
     });
   });
 
