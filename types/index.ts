@@ -1,6 +1,6 @@
 import { NoteState } from '@/def';
 
-export type Spanish = { id: string; spanish: string; korean: string; starChecked: boolean };
+export type Spanish = { id: string; spanish: string; korean: string; starChecked?: boolean };
 
 export type EnrollMode = 'Enroll' | 'Modify';
 
