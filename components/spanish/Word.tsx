@@ -10,10 +10,20 @@ type Props = {
   starChecked: boolean;
   modifyCallback: (id: string, spanish: string, korean: string) => void;
   deleteCallback: () => void;
+  changeStarState: (id: string, starChecked: boolean) => void;
   openModal: () => void;
 };
 
-export default function Word({ spanish, korean, id, starChecked, modifyCallback, deleteCallback, openModal }: Props) {
+export default function Word({
+  spanish,
+  korean,
+  id,
+  starChecked,
+  modifyCallback,
+  deleteCallback,
+  changeStarState,
+  openModal,
+}: Props) {
   return (
     <section className='flex min-h-14'>
       <li className='flex items-center min-h-14 w-full rounded-l-md border-2 mb-2 bg-red-500 text-white shadow-inner'>
@@ -40,7 +50,7 @@ export default function Word({ spanish, korean, id, starChecked, modifyCallback,
         </div>
         <div
           className='border-2 ml-1 rounded-r-md h-8 w-8 flex justify-center items-center cursor-pointer'
-          onClick={() => {}}
+          onClick={() => changeStarState(id, !starChecked)}
         >
           <Star isChecked={starChecked} />
         </div>
