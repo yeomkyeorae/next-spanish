@@ -136,6 +136,16 @@ export const modifySpanish = async (type: 'word' | 'sentence', id: string, spani
   }
 };
 
+export const changeStarChecked = async (type: 'word' | 'sentence', id: string, starChecked: boolean) => {
+  try {
+    await updateDoc(doc(dbService, type, id), {
+      starChecked,
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const getWordInfos = async (userId: string, wordId: string) => {
   const queryResult = query(
     collection(dbService, 'additionalWordInfo'),
