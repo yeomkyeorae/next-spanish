@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Spanish, EnrollMode, ModifyInfo } from '@/types';
 import EnrollSpanish from './EnrollSpanish';
-import { getWords } from '@/service/spanish';
+import { changeStarChecked, getWords } from '@/service/spanish';
 import Alfabeto from './Alfabeto';
 import { WORD_REPRESENTS } from '@/def';
 import { useAuthContext } from '@/context/authContext';
@@ -59,6 +59,22 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const openModal = (wordId: string, spanish: string, korean: string) => {
     setModalOpen(true);
     setModalWordInfo({ wordId, spanish, korean });
+  };
+
+  const changeStarState = async (id: string, starChecked: boolean) => {
+    try {
+      await changeStarChecked('word', id, starChecked);
+      setWords(
+        words.map((word) => {
+          if (word.id === id) {
+            return { ...word, starChecked };
+          }
+          return word;
+        }),
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -119,6 +135,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
                 starChecked={word.starChecked ?? false}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
+                changeStarState={changeStarState}
                 openModal={() => openModal(word.id, word.spanish, word.korean)}
               />
             ))}
