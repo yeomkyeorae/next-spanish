@@ -116,6 +116,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
                 spanish={word.spanish}
                 korean={word.korean}
                 id={word.id}
+                starChecked={word.starChecked}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
                 openModal={() => openModal(word.id, word.spanish, word.korean)}
