@@ -16,19 +16,22 @@ import {
 import { dbService } from '@/firebase/firebase';
 import { Spanish } from '@/types';
 
-export const getWords = async (userId: string, startAtChar: string, limitNumber: number) => {
+export const getWords = async (userId: string, startAtChar: string, limitNumber: number, starChecked: boolean) => {
   const citiesRef = collection(dbService, 'word');
 
-  // Create a query against the collection.
-  const q = query(
-    citiesRef,
+  const queries = [
     where('userId', '==', userId),
     limit(limitNumber),
     orderBy('spanish'),
     startAt(startAtChar),
     endAt(startAtChar + '\uf8ff'),
-  );
-  const querySnapshot = await getDocs(q);
+  ];
+
+  if (starChecked) {
+    queries.push(where('starChecked', '==', starChecked));
+  }
+
+  const querySnapshot = await getDocs(query(citiesRef, ...queries));
 
   const words: Spanish[] = [];
   querySnapshot.forEach((doc) => {
