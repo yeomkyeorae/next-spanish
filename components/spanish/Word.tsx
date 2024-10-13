@@ -30,7 +30,7 @@ export default function Word({
         <div className='flex w-full justify-between'>
           <div className='flex flex-col p-3'>
             <div className='flex items-center gap-1'>
-              {starChecked ? <Star isChecked={true} /> : ''}
+              {starChecked ? <Star /> : ''}
               <span className='text-xl'>{spanish}</span>
             </div>
             <span className='text-sm'>{korean}</span>
