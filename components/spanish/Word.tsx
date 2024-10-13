@@ -49,10 +49,12 @@ export default function Word({
           <FaPlus className='text-yellow-400 hover:text-carrot' />
         </div>
         <div
-          className='border-2 ml-1 rounded-r-md h-8 w-8 flex justify-center items-center cursor-pointer'
+          className={`border-2 ml-1 rounded-r-md h-8 w-8 flex justify-center items-center cursor-pointer hover:text-yellow-400 ${
+            starChecked ? 'text-yellow-400' : 'text-slate-300'
+          }`}
           onClick={() => changeStarState(id, !starChecked)}
         >
-          <Star isChecked={starChecked} />
+          <Star />
         </div>
       </div>
     </section>

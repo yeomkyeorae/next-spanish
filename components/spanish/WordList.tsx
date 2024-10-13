@@ -12,6 +12,7 @@ import Divider from '../common/Divider';
 import { WORD_MAX_LENGTH } from '@/def';
 import Modal from '../common/Modal';
 import WordInfoContent from '../additionalWordInfo/WordInfoContent';
+import Star from '../common/icons/Star';
 
 type Props = {
   canSortSpanish?: boolean;
@@ -26,6 +27,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
   const [modalOpen, setModalOpen] = useState(false);
   const [modalWordInfo, setModalWordInfo] = useState({ wordId: '', spanish: '', korean: '' });
+  const [onlyStarChecked, setOnlyStarChekced] = useState(false);
 
   const { user } = useAuthContext();
 
@@ -35,7 +37,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
     if (userId) {
       let spanishList: Spanish[] = [];
       for (let i = 0; i < startAtChar.length; i++) {
-        const spanish = await getWords(userId, startAtChar[i], WORD_MAX_LENGTH);
+        const spanish = await getWords(userId, startAtChar[i], WORD_MAX_LENGTH, onlyStarChecked);
 
         spanishList = spanishList.concat(spanish);
       }
@@ -43,7 +45,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
       setWords(spanishList);
       setEnrollMode('Enroll');
     }
-  }, [startAtChar, user]);
+  }, [startAtChar, user, onlyStarChecked]);
 
   const modifyClickHandler = (id: string, spanish: string, korean: string) => {
     setModifyInfo({
@@ -64,14 +66,19 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const changeStarState = async (id: string, starChecked: boolean) => {
     try {
       await changeStarChecked('word', id, starChecked);
-      setWords(
-        words.map((word) => {
-          if (word.id === id) {
-            return { ...word, starChecked };
-          }
-          return word;
-        }),
-      );
+
+      let newWords = words.map((word) => {
+        if (word.id === id) {
+          return { ...word, starChecked };
+        }
+        return word;
+      });
+
+      if (onlyStarChecked) {
+        newWords = newWords.filter((word) => word.starChecked);
+      }
+
+      setWords(newWords);
     } catch (err) {
       console.log(err);
     }
@@ -123,6 +130,17 @@ export default function WordList({ canSortSpanish = false }: Props) {
           })}
         </ul>
       )}
+      <div className='flex justify-center my-2'>
+        <div
+          className={`flex items-center gap-1 cursor-pointer hover:text-yellow-400 hover:font-bold ${
+            onlyStarChecked ? 'text-yellow-400' : 'text-slate-400'
+          }`}
+          onClick={() => setOnlyStarChekced(!onlyStarChecked)}
+        >
+          <Star />
+          <span>별표만 보이기</span>
+        </div>
+      </div>
       {words.length > 0 ? (
         <section className='flex flex-col items-center'>
           <ul className='w-full md:w-1/2'>
