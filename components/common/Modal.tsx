@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface Props {
   isOpen: boolean;
@@ -7,6 +7,20 @@ interface Props {
 }
 
 export default function Modal({ isOpen, onClose, children }: Props) {
+  useEffect(() => {
+    function pressEscape(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    window.addEventListener('keydown', pressEscape);
+
+    return () => {
+      window.removeEventListener('keydown', pressEscape);
+    };
+  }, [onClose]);
+
   if (!isOpen) return null;
 
   return (
