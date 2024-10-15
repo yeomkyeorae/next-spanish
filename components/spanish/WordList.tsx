@@ -27,7 +27,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
   const [modalOpen, setModalOpen] = useState(false);
   const [modalWordInfo, setModalWordInfo] = useState({ wordId: '', spanish: '', korean: '' });
-  const [onlyStarChecked, setOnlyStarChekced] = useState(false);
+  const [onlyStarChecked, setOnlyStarChekced] = useState(true);
 
   const { user } = useAuthContext();
 
