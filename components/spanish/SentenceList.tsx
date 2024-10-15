@@ -46,6 +46,8 @@ export default function SentenceList() {
         }
       }),
     );
+
+    setEnrollMode('Enroll');
   };
 
   const deleteCallback = (id: string) => {
