@@ -2,11 +2,10 @@ import ModifySpanish from './ModifySpanish';
 import DeleteSpanish from './DeleteSpanish';
 import Star from '../common/icons/Star';
 import { FaPlus } from 'react-icons/fa';
+import { Spanish } from '@/types';
 
 type Props = {
-  spanish: string;
-  korean: string;
-  id: string;
+  word: Spanish;
   starChecked: boolean;
   modifyCallback: (id: string, spanish: string, korean: string) => void;
   deleteCallback: () => void;
@@ -14,16 +13,9 @@ type Props = {
   openModal: () => void;
 };
 
-export default function Word({
-  spanish,
-  korean,
-  id,
-  starChecked,
-  modifyCallback,
-  deleteCallback,
-  changeStarState,
-  openModal,
-}: Props) {
+export default function Word({ word, starChecked, modifyCallback, deleteCallback, changeStarState, openModal }: Props) {
+  const { spanish, korean, id } = word;
+
   return (
     <section className='flex min-h-14'>
       <li className='flex items-center min-h-14 w-full rounded-l-md border-2 mb-2 bg-red-500 text-white shadow-inner'>
