@@ -147,9 +147,7 @@ export default function WordList({ canSortSpanish = false }: Props) {
             {words.map((word, index) => (
               <Word
                 key={index}
-                spanish={word.spanish}
-                korean={word.korean}
-                id={word.id}
+                word={word}
                 starChecked={word.starChecked ?? false}
                 modifyCallback={modifyClickHandler}
                 deleteCallback={requestSpanish}
