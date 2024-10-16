@@ -3,13 +3,13 @@ import DeleteSpanish from './DeleteSpanish';
 import ModifySpanish from './ModifySpanish';
 
 type Props = {
-  word: Spanish;
+  sentence: Spanish;
   modifyCallback: (id: string, spanish: string, korean: string) => void;
   deleteCallback: (id: string) => void;
 };
 
-export default function Sentence({ word, modifyCallback, deleteCallback }: Props) {
-  const { spanish, korean, id } = word;
+export default function Sentence({ sentence, modifyCallback, deleteCallback }: Props) {
+  const { spanish, korean, id } = sentence;
 
   return (
     <li className='flex items-center h-full w-full rounded-md border-2 mb-2 bg-red-500 text-white shadow-inner'>
