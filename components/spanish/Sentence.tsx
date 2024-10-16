@@ -1,15 +1,16 @@
+import { Spanish } from '@/types';
 import DeleteSpanish from './DeleteSpanish';
 import ModifySpanish from './ModifySpanish';
 
 type Props = {
-  spanish: string;
-  korean: string;
-  id: string;
+  word: Spanish;
   modifyCallback: (id: string, spanish: string, korean: string) => void;
   deleteCallback: (id: string) => void;
 };
 
-export default function Sentence({ spanish, korean, id, modifyCallback, deleteCallback }: Props) {
+export default function Sentence({ word, modifyCallback, deleteCallback }: Props) {
+  const { spanish, korean, id } = word;
+
   return (
     <li className='flex items-center h-full w-full rounded-md border-2 mb-2 bg-red-500 text-white shadow-inner'>
       <div className='flex w-full justify-between'>
