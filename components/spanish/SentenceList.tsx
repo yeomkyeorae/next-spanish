@@ -123,8 +123,8 @@ export default function SentenceList() {
       {sentences.length > 0 ? (
         <section className='flex flex-col items-center mb-2'>
           <ul className='w-full md:w-2/3'>
-            {sentences.map((word, index) => (
-              <Sentence key={index} word={word} modifyCallback={modifyClickHandler} deleteCallback={deleteCallback} />
+            {sentences.map((sentence, index) => (
+              <Sentence key={index} sentence={sentence} modifyCallback={modifyClickHandler} deleteCallback={deleteCallback} />
             ))}
           </ul>
           <Button text='더보기' btnBgColor='bg-orange' onClickHandler={requestNextNote} />
