@@ -1,4 +1,4 @@
-import { FaPen } from 'react-icons/fa';
+import Pen from '../common/icons/Pen';
 
 type Props = {
   callback: () => void;
@@ -7,7 +7,7 @@ type Props = {
 export default function ModifySpanish({ callback }: Props) {
   return (
     <span onClick={callback} className='cursor-pointer'>
-      <FaPen className='text-yellow-400 hover:text-carrot' />
+      <Pen />
     </span>
   );
 }

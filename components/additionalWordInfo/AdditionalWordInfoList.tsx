@@ -1,6 +1,6 @@
 import { WordInfo } from '@/types';
-import { FaPen } from 'react-icons/fa';
-import { IoMdRemoveCircle } from 'react-icons/io';
+import Pen from '../common/icons/Pen';
+import Remove from '../common/icons/Remove';
 
 interface Props {
   data: WordInfo[];
@@ -21,10 +21,10 @@ export default function AdditionWordInfoList({ data, removeWordInfo, changeEnrol
               <div className='border-2 border-black w-4/6 p-1 rounded-md'>{spanish}</div>
               <div className='border-2 border-black w-1/6 p-1 rounded-md flex justify-center items-center gap-2'>
                 <span onClick={() => changeEnrollModiType(spanish, explanation, id)} className='cursor-pointer'>
-                  <FaPen className='text-yellow-400 hover:text-carrot' />
+                  <Pen />
                 </span>
                 <span onClick={() => removeWordInfo(id)} className='cursor-pointer'>
-                  <IoMdRemoveCircle className='text-yellow-400 hover:text-carrot' />
+                  <Remove />
                 </span>
               </div>
             </li>

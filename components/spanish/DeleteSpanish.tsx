@@ -1,5 +1,5 @@
 import { deleteSpanish } from '@/service/spanish';
-import { IoMdRemoveCircle } from 'react-icons/io';
+import Remove from '../common/icons/Remove';
 
 type Props = {
   type: 'word' | 'sentence';
@@ -27,7 +27,7 @@ export default function DeleteSpanish({ type, id, callback }: Props) {
 
   return (
     <span onClick={clickHandler} className='cursor-pointer'>
-      <IoMdRemoveCircle className='text-yellow-400 hover:text-carrot' />
+      <Remove />
     </span>
   );
 }
