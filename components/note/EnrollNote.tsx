@@ -37,28 +37,33 @@ export default function EnrollNote({
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
   const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
   const { user } = useAuthContext();
-  const userId = user!.uid;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const onEnrollHandler = useCallback(async () => {
-    try {
-      await enrollNote(userId, note, noteTitle);
-      alert('노트 등록에 성공했습니다!');
+    const userId = user?.uid;
 
-      setNoteState(NoteState.note);
-      setTitle(noteTitle);
-      setContent(note);
-      requestFirstNote();
+    try {
+      if (userId) {
+        await enrollNote(userId, note, noteTitle);
+        alert('노트 등록에 성공했습니다!');
+
+        setNoteState(NoteState.note);
+        setTitle(noteTitle);
+        setContent(note);
+        requestFirstNote();
+      }
     } catch (err) {
       console.log(err);
       alert('노트 등록에 실패했습니다!');
     }
-  }, [noteTitle, note, userId, setNoteState, setTitle, setContent, requestFirstNote]);
+  }, [noteTitle, note, user, setNoteState, setTitle, setContent, requestFirstNote]);
 
   const onModifyHandler = useCallback(async () => {
+    const userId = user?.uid;
+
     try {
-      if (noteId) {
+      if (userId && noteId) {
         await modifyNote(noteId, note, noteTitle);
         alert('노트 수정에 성공했습니다!');
 
@@ -70,7 +75,7 @@ export default function EnrollNote({
       console.log(err);
       alert('노트 수정에 실패했습니다!');
     }
-  }, [noteTitle, note, setNoteState, setTitle, setContent, noteId]);
+  }, [noteTitle, note, user, setNoteState, setTitle, setContent, noteId]);
 
   const charClickHandler = (char: string) => {
     const currentCursorLocation = textAreaRef.current?.selectionStart as number;

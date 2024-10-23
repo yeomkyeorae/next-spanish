@@ -39,7 +39,6 @@ export default function EnrollSpanish({
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
   const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
   const { user } = useAuthContext();
-  const userId = user!.uid;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -74,16 +73,19 @@ export default function EnrollSpanish({
         return;
       }
 
-      const id = await enrollSpanish(userId, type, spanish, korean);
+      const userId = user?.uid;
+      if (userId) {
+        const id = await enrollSpanish(userId, type, spanish, korean);
 
-      setSpanish('');
-      setKorean('');
+        setSpanish('');
+        setKorean('');
 
-      if (enrollCallback) {
-        enrollCallback({ id, spanish, korean });
+        if (enrollCallback) {
+          enrollCallback({ id, spanish, korean });
+        }
+
+        alert(`${type === 'sentence' ? '문장' : '단어'} 등록이 완료되었습니다!`);
       }
-
-      alert(`${type === 'sentence' ? '문장' : '단어'} 등록이 완료되었습니다!`);
     } catch (err) {
       console.log(err);
     }

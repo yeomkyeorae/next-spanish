@@ -28,20 +28,24 @@ export default function WordList({ canSortSpanish = false }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalWordInfo, setModalWordInfo] = useState({ wordId: '', spanish: '', korean: '' });
   const [onlyStarChecked, setOnlyStarChekced] = useState(true);
+
   const { user } = useAuthContext();
-  const userId = user!.uid;
 
   const requestSpanish = useCallback(async () => {
-    let spanishList: Spanish[] = [];
-    for (let i = 0; i < startAtChar.length; i++) {
-      const spanish = await getWords(userId, startAtChar[i], WORD_MAX_LENGTH, onlyStarChecked);
+    const userId = user?.uid;
 
-      spanishList = spanishList.concat(spanish);
+    if (userId) {
+      let spanishList: Spanish[] = [];
+      for (let i = 0; i < startAtChar.length; i++) {
+        const spanish = await getWords(userId, startAtChar[i], WORD_MAX_LENGTH, onlyStarChecked);
+
+        spanishList = spanishList.concat(spanish);
+      }
+
+      setWords(spanishList);
+      setEnrollMode('Enroll');
     }
-
-    setWords(spanishList);
-    setEnrollMode('Enroll');
-  }, [startAtChar, userId, onlyStarChecked]);
+  }, [startAtChar, user, onlyStarChecked]);
 
   const modifyClickHandler = (id: string, spanish: string, korean: string) => {
     setModifyInfo({

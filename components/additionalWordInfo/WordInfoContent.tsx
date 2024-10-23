@@ -23,12 +23,13 @@ export default function WordInfoContent({ modalWordInfo }: Props) {
   const [explanation, setExplanation] = useState('');
   const [modifyTargetId, setModifyTargetId] = useState('');
   const { user } = useAuthContext();
-  const userId = user!.uid;
 
   const fetchWordInfos = useCallback(async () => {
+    const userId = user?.uid;
+
     const { wordId } = modalWordInfo;
 
-    if (wordId) {
+    if (userId && wordId) {
       const response = await getWordInfos(userId, wordId);
       const newWordInfos: WordInfo[] = [];
 
@@ -44,7 +45,7 @@ export default function WordInfoContent({ modalWordInfo }: Props) {
 
       setWordInfos(newWordInfos);
     }
-  }, [modalWordInfo, userId]);
+  }, [modalWordInfo, user]);
 
   const removeWordInfo = useCallback(
     async (wordId: string) => {

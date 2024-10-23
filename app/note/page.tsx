@@ -18,27 +18,32 @@ export default function Note() {
   const [maxNoteCount, setMaxNoteCount] = useState(0);
   const { user } = useAuthContext();
 
-  const userId = user!.uid;
   const requestFirstNote = useCallback(async () => {
-    const firstNote = await getFirstNote(userId);
-    setCurrentNote(firstNote);
+    const userId = user?.uid;
 
-    const title = firstNote?.data()?.title;
-    const content = firstNote?.data()?.content;
+    if (userId) {
+      const firstNote = await getFirstNote(userId);
+      setCurrentNote(firstNote);
 
-    setTitle(title ?? '제목이 없습니다!');
-    setContent(content ?? '등록된 노트가 없습니다!');
+      const title = firstNote?.data()?.title;
+      const content = firstNote?.data()?.content;
 
-    const count = await getNoteCount(userId);
-    setMaxNoteCount(count);
+      setTitle(title ?? '제목이 없습니다!');
+      setContent(content ?? '등록된 노트가 없습니다!');
 
-    if (content) {
-      setCurrentPage(1);
+      const count = await getNoteCount(userId);
+      setMaxNoteCount(count);
+
+      if (content) {
+        setCurrentPage(1);
+      }
     }
-  }, [userId]);
+  }, [user]);
 
   const requestNextNote = useCallback(async () => {
-    if (currentNote) {
+    const userId = user?.uid;
+
+    if (userId && currentNote) {
       const nextNote = await getNextNote(userId, currentNote);
 
       if (nextNote) {
@@ -50,10 +55,12 @@ export default function Note() {
         alert('다음 노트가 없습니다!');
       }
     }
-  }, [userId, currentNote, currentPage]);
+  }, [user, currentNote, currentPage]);
 
   const requestBeforeNote = useCallback(async () => {
-    if (currentNote) {
+    const userId = user?.uid;
+
+    if (userId && currentNote) {
       const beforeNote = await getBeforeNote(userId, currentNote);
 
       if (beforeNote) {
@@ -65,7 +72,7 @@ export default function Note() {
         alert('이전 노트가 없습니다!');
       }
     }
-  }, [userId, currentNote, currentPage]);
+  }, [user, currentNote, currentPage]);
 
   const changeNoteState = (noteState: NoteStateType) => {
     setNoteState(noteState);

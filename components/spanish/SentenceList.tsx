@@ -17,8 +17,8 @@ export default function SentenceList() {
   const [sentences, setSentences] = useState<Spanish[]>([]);
   const [enrollMode, setEnrollMode] = useState<EnrollMode>('Enroll');
   const [modifyInfo, setModifyInfo] = useState<ModifyInfo>({ mId: '', mSpanish: '', mKorean: '' });
+
   const { user } = useAuthContext();
-  const userId = user!.uid;
 
   const modifyClickHandler = (id: string, spanish: string, korean: string) => {
     setModifyInfo({
@@ -55,25 +55,31 @@ export default function SentenceList() {
   };
 
   const requestFirstNote = useCallback(async () => {
-    const firstSentences = await getFirstSentences(userId, SENTENCE_PER_PAGE);
-    setLastSentence(firstSentences[firstSentences.length - 1]);
+    const userId = user?.uid;
 
-    const newSentences: Spanish[] = [];
-    firstSentences.forEach((doc) => {
-      const data = doc.data();
+    if (userId) {
+      const firstSentences = await getFirstSentences(userId, SENTENCE_PER_PAGE);
+      setLastSentence(firstSentences[firstSentences.length - 1]);
 
-      newSentences.push({
-        id: doc.id,
-        spanish: data.spanish,
-        korean: data.korean,
+      const newSentences: Spanish[] = [];
+      firstSentences.forEach((doc) => {
+        const data = doc.data();
+
+        newSentences.push({
+          id: doc.id,
+          spanish: data.spanish,
+          korean: data.korean,
+        });
       });
-    });
 
-    setSentences(sentences.concat(newSentences));
-  }, [userId, sentences]);
+      setSentences(sentences.concat(newSentences));
+    }
+  }, [user, sentences]);
 
   const requestNextNote = useCallback(async () => {
-    if (lastSentence) {
+    const userId = user?.uid;
+
+    if (userId && lastSentence) {
       const nextSentences = await getNextSentences(userId, lastSentence, SENTENCE_PER_PAGE);
 
       if (nextSentences) {
@@ -95,7 +101,7 @@ export default function SentenceList() {
         alert('다음 문장들이 없습니다!');
       }
     }
-  }, [userId, sentences, lastSentence]);
+  }, [user, sentences, lastSentence]);
 
   useEffect(() => {
     requestFirstNote();
@@ -118,12 +124,7 @@ export default function SentenceList() {
         <section className='flex flex-col items-center mb-2'>
           <ul className='w-full md:w-2/3'>
             {sentences.map((sentence, index) => (
-              <Sentence
-                key={index}
-                sentence={sentence}
-                modifyCallback={modifyClickHandler}
-                deleteCallback={deleteCallback}
-              />
+              <Sentence key={index} sentence={sentence} modifyCallback={modifyClickHandler} deleteCallback={deleteCallback} />
             ))}
           </ul>
           <Button text='더보기' btnBgColor='bg-orange' onClickHandler={requestNextNote} />
