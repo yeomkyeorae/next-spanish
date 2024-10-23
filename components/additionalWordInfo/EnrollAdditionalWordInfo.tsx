@@ -1,6 +1,5 @@
 'use client';
 
-import { FaPlus } from 'react-icons/fa';
 import Input from '../common/Input';
 import { SetStateAction, Dispatch, useRef, useState } from 'react';
 import SpanishInput from '../spanish/SpanishInput';
@@ -38,6 +37,7 @@ export default function EnrollAdditionalWordInfo({
   const [specialChar, setSpecialChar] = useState<keyof typeof SpanishConvertDict | null>(null);
   const [isActiveSpanishKeyboard, setIsActiveSpanishKeyboard] = useState(false);
   const { user } = useAuthContext();
+  const userId = user!.uid;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -68,16 +68,13 @@ export default function EnrollAdditionalWordInfo({
 
   const enrollAdditionWordInfo = async () => {
     try {
-      if (spanish && explanation) {
-        const userId = user?.uid;
-        if (userId && wordId) {
-          await enrollWordInfo(userId, wordId, spanish, explanation);
-          setSpanish('');
-          setExplanation('');
-          fetchWordInfos();
+      if (spanish && explanation && wordId) {
+        await enrollWordInfo(userId, wordId, spanish, explanation);
+        setSpanish('');
+        setExplanation('');
+        fetchWordInfos();
 
-          alert('단어 추가 정보가 등록되었습니다!');
-        }
+        alert('단어 추가 정보가 등록되었습니다!');
       } else {
         alert('입력 정보를 확인해 주세요!');
       }
